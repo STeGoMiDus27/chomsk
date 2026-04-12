@@ -317,7 +317,7 @@ textarea{resize:vertical;min-height:56px;}
       <div><div class="nav-title">Администрация</div><div class="nav-sub">Чомск · 207</div></div>
     </div>
     <a href="https://t.me/chomsk" target="_blank" class="nav-back" style="text-decoration:none;margin-left:auto;">Канал</a>
-    <a href="https://t.me/sandromidus" target="_blank" class="nav-back" style="text-decoration:none;border-color:#1a2a3a;color:#4a9fff;">Поддержка</a>
+    <button class="nav-back" id="btn-show-requests" style="border-color:#1a2a3a;color:#4a9fff;position:relative;">Заявки <span id="req-badge" style="display:none;position:absolute;top:-4px;right:-4px;background:#ff4444;color:#fff;border-radius:50%;width:16px;height:16px;font-size:9px;line-height:16px;text-align:center;"></span></button>
     <button class="nav-back" id="admin-logout">Выйти</button>
   </div>
   <div class="admin-body">
@@ -598,21 +598,112 @@ textarea{resize:vertical;min-height:56px;}
   </div>
 </div>
 
-<script>
-// ========== STATE ==========
-var TG_TOKEN = '8750803345:AAH_ArYfSAWTtAYpWQ-e6LvpngmNdhwLI-0';
-var TG_CHATS = ['949707716', '2131859816'];
+<!-- Заявки -->
+<div class="overlay" id="requests-overlay">
+  <div class="modal-box" style="width:600px;max-height:80vh;border-color:#1a2a3a;">
+    <div class="modal-title" style="color:#4a9fff;">Заявки граждан</div>
+    <div id="requests-list" style="display:flex;flex-direction:column;gap:10px;overflow-y:auto;max-height:60vh;"></div>
+    <div class="modal-btns">
+      <button class="modal-cancel" id="requests-close">Закрыть</button>
+    </div>
+  </div>
+</div>
 
-async function tgSend(text) {
-  for(var i=0;i<TG_CHATS.length;i++){
-    try {
-      await fetch('https://api.telegram.org/bot'+TG_TOKEN+'/sendMessage', {
-        method:'POST',
-        headers:{'Content-Type':'application/json'},
-        body:JSON.stringify({chat_id:TG_CHATS[i], text:text, parse_mode:'HTML'})
-      });
-    } catch(e) {}
-  }
+<script>
+// ========== REQUESTS ==========
+async function submitRequest(found, type, text) {
+  var req = {
+    id: String(Date.now()),
+    citizen_id: found.id,
+    citizen_name: found.name,
+    ud_num: found.udNum,
+    type: type,
+    text: text,
+    status: 'pending',
+    response: ''
+  };
+  try {
+    await fetch(SUPABASE_URL+'/rest/v1/requests', {
+      method:'POST',
+      headers: Object.assign({}, sbHeaders(), {'Prefer':'return=minimal'}),
+      body: JSON.stringify(req)
+    });
+    // Сохраняем id заявки в удостоверение гражданина
+    if(!found.requests) found.requests=[];
+    found.requests.push(req.id);
+    await dbSaveOne(found);
+  } catch(e) {}
+}
+
+async function loadRequests() {
+  try {
+    var res = await fetch(SUPABASE_URL+'/rest/v1/requests?select=*&order=created_at.desc', {headers: sbHeaders()});
+    return await res.json();
+  } catch(e) { return []; }
+}
+
+async function updateRequest(id, status, response) {
+  try {
+    await fetch(SUPABASE_URL+'/rest/v1/requests?id=eq.'+id, {
+      method:'PATCH',
+      headers: Object.assign({}, sbHeaders(), {'Prefer':'return=minimal'}),
+      body: JSON.stringify({status:status, response:response})
+    });
+    // Найдём заявку чтобы получить citizen_id
+    var res=await fetch(SUPABASE_URL+'/rest/v1/requests?id=eq.'+id+'&select=citizen_id,type',{headers:sbHeaders()});
+    var rows=await res.json();
+    if(rows&&rows[0]){
+      var citizen=null;
+      for(var i=0;i<DB.length;i++){if(DB[i].id===rows[0].citizen_id){citizen=DB[i];break;}}
+      if(citizen){
+        if(!citizen.messages)citizen.messages=[];
+        var typeMap={'rank':'Заявка на изменение ранга','extend':'Заявка на продление срока','error':'Сообщение об ошибке'};
+        citizen.messages.unshift({
+          text:(status==='accepted'?'✅ ':'❌ ')+(typeMap[rows[0].type]||'Заявка')+': '+response,
+          ts:nowStr()
+        });
+        await dbSaveOne(citizen);
+      }
+    }
+  } catch(e) {}
+}
+
+async function renderRequests() {
+  var list = document.getElementById('requests-list');
+  list.innerHTML='<div style="text-align:center;font-size:10px;color:#444;letter-spacing:2px;">Загрузка...</div>';
+  var reqs = await loadRequests();
+  
+  // Обновляем бейдж
+  var pending = reqs.filter(function(r){return r.status==='pending';});
+  var badge = document.getElementById('req-badge');
+  if(pending.length){badge.style.display='block';badge.textContent=pending.length;}
+  else badge.style.display='none';
+
+  if(!reqs.length){list.innerHTML='<div style="text-align:center;font-size:10px;color:#444;letter-spacing:2px;padding:20px;">Заявок нет</div>';return;}
+
+  var typeMap={'rank':'↑ Заявка на ранг','extend':'⟳ Продление срока','error':'⚠ Ошибка в данных'};
+  var html='';
+  reqs.forEach(function(r){
+    var isPending=r.status==='pending';
+    var statusColor=isPending?'#ffaa44':r.status==='accepted'?'#4aff4a':'#ff4444';
+    var statusLabel=isPending?'Ожидает':r.status==='accepted'?'Принято':'Отклонено';
+    html+='<div style="background:#0d0d0d;border:1px solid '+(isPending?'#2a2a1a':'#1a1a1a')+';border-radius:4px;padding:12px;">'+
+      '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">'+
+        '<div style="font-size:10px;letter-spacing:2px;color:#4a9fff;">'+(typeMap[r.type]||r.type)+'</div>'+
+        '<div style="font-size:9px;letter-spacing:1px;color:'+statusColor+';">'+statusLabel+'</div>'+
+      '</div>'+
+      '<div style="font-size:12px;color:#888;margin-bottom:4px;"><span style="color:#555;">'+r.citizen_name+'</span> · <span style="color:#333;">'+r.ud_num+'</span></div>'+
+      '<div style="font-size:12px;color:#bbb;margin-bottom:10px;line-height:1.5;">'+r.text+'</div>'+
+      (isPending?
+        '<div style="display:flex;gap:8px;">'+
+          '<input id="resp-'+r.id+'" placeholder="Ответ (необязательно)" style="flex:1;font-size:12px;padding:6px 8px;background:#111;border:1px solid #2a2a2a;border-radius:3px;color:#fff;font-family:Share Tech Mono,monospace;">'+
+          '<button class="btn" data-action="req-accept" data-reqid="'+r.id+'" style="border-color:#1a2a1a;color:#4aff4a;">✓ Принять</button>'+
+          '<button class="btn" data-action="req-decline" data-reqid="'+r.id+'" style="border-color:#2b0d0d;color:#ff4444;">✕ Отклонить</button>'+
+        '</div>'
+      :(r.response?'<div style="font-size:11px;color:#555;">Ответ: '+r.response+'</div>':''))+
+    '</div>';
+  });
+  list.innerHTML=html;
 }
 var DB = [], C = 1, G = 'M', SORT = 'date';
 
@@ -1077,7 +1168,12 @@ async function citizenLogin(){
     osc.start(ctx.currentTime);osc.stop(ctx.currentTime+0.3);
   }catch(e){}
   setTimeout(function(){
-    // Копировать данные
+    bindCitizenButtons(found);
+  },100);
+}
+
+function bindCitizenButtons(found){
+  setTimeout(function(){
     var btn=document.getElementById('btn-copy-all');
     if(btn) btn.addEventListener('click',function(){
       var valD=found.val?'до '+found.val:'Бессрочно';
@@ -1118,7 +1214,7 @@ async function citizenLogin(){
       var err=document.getElementById('rank-req-err');
       if(!reason){err.textContent='Напишите обоснование';err.style.color='#ff4444';return;}
       err.textContent='Отправка...';err.style.color='#4a9fff';
-      await tgSend('📋 <b>ЗАЯВКА НА ПОВЫШЕНИЕ РАНГА</b>\n\nГражданин: <b>'+found.name+'</b>\nНомер УД: '+found.udNum+'\nТекущий ранг: <b>'+found.rank+'</b>\nЖелаемый ранг: <b>'+rankWanted+'</b>\nОбоснование: '+reason);
+      await submitRequest(found,'rank','Желаемый ранг: '+rankWanted+'. Обоснование: '+reason);
       err.textContent='✓ Заявка отправлена';err.style.color='#4aff4a';
       setTimeout(function(){document.getElementById('rank-overlay').style.display='none';},1500);
     };
@@ -1135,7 +1231,7 @@ async function citizenLogin(){
       var err=document.getElementById('error-req-err');
       if(!errorText){err.textContent='Опишите ошибку';err.style.color='#ff4444';return;}
       err.textContent='Отправка...';err.style.color='#4a9fff';
-      await tgSend('⚠️ <b>ОШИБКА В ДАННЫХ</b>\n\nГражданин: <b>'+found.name+'</b>\nНомер УД: '+found.udNum+'\nОшибка: '+errorText);
+      await submitRequest(found,'error',errorText);
       err.textContent='✓ Сообщение отправлено';err.style.color='#4aff4a';
       setTimeout(function(){document.getElementById('error-overlay').style.display='none';},1500);
     };
@@ -1152,7 +1248,7 @@ async function citizenLogin(){
       var err=document.getElementById('extend-req-err');
       if(!reason){err.textContent='Напишите причину';err.style.color='#ff4444';return;}
       err.textContent='Отправка...';err.style.color='#4a9fff';
-      await tgSend('⟳ <b>ЗАЯВКА НА ПРОДЛЕНИЕ СРОКА</b>\n\nГражданин: <b>'+found.name+'</b>\nНомер УД: '+found.udNum+'\nТекущий срок: '+(found.val?'до '+found.val:'Бессрочно')+'\nПричина: '+reason);
+      await submitRequest(found,'extend','Текущий срок: '+(found.val?'до '+found.val:'Бессрочно')+'. Причина: '+reason);
       err.textContent='✓ Заявка отправлена';err.style.color='#4aff4a';
       setTimeout(function(){document.getElementById('extend-overlay').style.display='none';},1500);
     };
@@ -1311,7 +1407,9 @@ window.addEventListener('DOMContentLoaded', async function(){
       if(autoFound){
         sha256(savedPass).then(function(hash){
           if(autoFound.password===hash||autoFound.password===savedPass){
-            renderProfile(autoFound);show('screen-citizen-profile');
+            renderProfile(autoFound);
+            show('screen-citizen-profile');
+            bindCitizenButtons(autoFound);
           } else {show('screen-citizen-login');}
         });
       } else {show('screen-citizen-login');}
@@ -1379,7 +1477,38 @@ window.addEventListener('DOMContentLoaded', async function(){
   document.getElementById('back-from-admin-login').addEventListener('click',function(){show('screen-menu');});
   document.getElementById('admin-logout').addEventListener('click',function(){try{localStorage.removeItem('chomsk_screen');}catch(e){}show('screen-menu');});
 
-  document.getElementById('wanted-back').addEventListener('click',function(){show('screen-menu');});
+  // ЗАЯВКИ
+  document.getElementById('btn-show-requests').addEventListener('click',async function(){
+    document.getElementById('requests-overlay').style.display='flex';
+    await renderRequests();
+  });
+  document.getElementById('requests-close').addEventListener('click',function(){document.getElementById('requests-overlay').style.display='none';});
+  document.getElementById('requests-overlay').addEventListener('click',function(ev){if(ev.target===this)this.style.display='none';});
+  document.getElementById('requests-list').addEventListener('click',async function(ev){
+    var btn=ev.target.closest('[data-action]');if(!btn)return;
+    var action=btn.getAttribute('data-action');
+    var reqId=btn.getAttribute('data-reqid');
+    if(!reqId)return;
+    var resp=document.getElementById('resp-'+reqId);
+    var respText=resp?resp.value.trim():'';
+    if(action==='req-accept'){
+      btn.textContent='...';
+      await updateRequest(reqId,'accepted',respText||'Заявка принята');
+      await renderRequests();
+    } else if(action==='req-decline'){
+      btn.textContent='...';
+      await updateRequest(reqId,'declined',respText||'Заявка отклонена');
+      await renderRequests();
+    }
+  });
+
+  // Обновляем бейдж при загрузке админки
+  setTimeout(async function(){
+    var reqs=await loadRequests();
+    var pending=reqs.filter(function(r){return r.status==='pending';});
+    var badge=document.getElementById('req-badge');
+    if(badge){if(pending.length){badge.style.display='block';badge.textContent=pending.length;}else badge.style.display='none';}
+  },2000);
 
   // CITIZEN LOGIN
   document.getElementById('btn-citizen-login').addEventListener('click',citizenLogin);
