@@ -1173,7 +1173,8 @@ async function citizenLogin(){
 }
 
 function bindCitizenButtons(found){
-  setTimeout(function(){
+  // Убираем setTimeout - вешаем напрямую через requestAnimationFrame
+  requestAnimationFrame(function(){ requestAnimationFrame(function(){
     var btn=document.getElementById('btn-copy-all');
     if(btn) btn.addEventListener('click',function(){
       var valD=found.val?'до '+found.val:'Бессрочно';
@@ -1290,7 +1291,7 @@ function bindCitizenButtons(found){
       btn.textContent='✓ Скачано';
       setTimeout(function(){btn.textContent='↓ Скачать удостоверение';},2000);
     });
-  },100);
+  }); });
 }
 
 function renderProfile(e){
@@ -1509,6 +1510,8 @@ window.addEventListener('DOMContentLoaded', async function(){
     var badge=document.getElementById('req-badge');
     if(badge){if(pending.length){badge.style.display='block';badge.textContent=pending.length;}else badge.style.display='none';}
   },2000);
+
+  document.getElementById('wanted-back').addEventListener('click',function(){show('screen-menu');});
 
   // CITIZEN LOGIN
   document.getElementById('btn-citizen-login').addEventListener('click',citizenLogin);
