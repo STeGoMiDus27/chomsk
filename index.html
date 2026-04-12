@@ -1,0 +1,1546 @@
+<!DOCTYPE html>
+<!-- saved from url=(0047)file:///C:/Users/mrpas/Downloads/chomsk_50.html -->
+<html lang="ru"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Чомск · 207</title>
+<link href="./index_files/css2" rel="stylesheet">
+<script src="./index_files/qrcode.min.js.Без названия"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --bg:#0a0a0a;--bg2:#111;--bg3:#0d0d0d;
+  --border:#1e1e1e;--border2:#2a2a2a;
+  --text:#fff;--text2:#bbb;--text3:#555;--text4:#333;
+  --accent:#fff;
+}
+@keyframes wantedBlink{0%,100%{opacity:1;}50%{opacity:.4;}}
+@keyframes cardEnter{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+#wanted-banner{animation:wantedBlink 1.5s ease infinite;}
+.profile-body{animation:cardEnter .4s ease;}
+.id-card{animation:cardEnter .4s ease;}
+
+body{background:var(--bg);min-height:100vh;font-family:'Share Tech Mono',monospace;color:var(--text);}
+
+/* ===== SCREENS ===== */
+.screen{display:none;}
+.screen.active{display:flex;flex-direction:column;min-height:100vh;}
+
+/* ===== MAIN MENU ===== */
+#screen-menu{align-items:center;justify-content:center;}
+.menu-wrap{display:flex;flex-direction:column;align-items:center;gap:40px;padding:40px 20px;animation:cardEnter .4s ease;}
+.menu-logo{display:flex;flex-direction:column;align-items:center;gap:16px;}
+.menu-sym svg{display:block;}
+.menu-title{font-size:28px;letter-spacing:8px;text-transform:uppercase;}
+.menu-sub{font-size:9px;letter-spacing:4px;color:var(--text3);text-transform:uppercase;}
+.menu-cards{display:flex;gap:20px;flex-wrap:wrap;justify-content:center;}
+.menu-card{background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:32px 40px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:14px;min-width:200px;transition:border-color .2s,background .2s;}
+.menu-card:hover{border-color:var(--border2);background:#161616;}
+.menu-card-icon{font-size:32px;}
+.menu-card-title{font-size:13px;letter-spacing:3px;text-transform:uppercase;}
+.menu-card-sub{font-size:9px;letter-spacing:2px;color:var(--text3);text-align:center;}
+.menu-footer{font-size:8px;letter-spacing:2px;color:var(--text4);text-transform:uppercase;}
+
+/* ===== SHARED ===== */
+.topbar-nav{display:flex;align-items:center;gap:12px;padding:14px 20px;border-bottom:1px solid var(--border);background:var(--bg2);}
+.nav-logo{display:flex;align-items:center;gap:10px;}
+.nav-title{font-size:11px;letter-spacing:3px;text-transform:uppercase;}
+.nav-sub{font-size:8px;letter-spacing:2px;color:var(--text3);}
+.nav-back{margin-left:auto;background:transparent;border:1px solid var(--border);border-radius:3px;color:var(--text3);font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;padding:6px 12px;cursor:pointer;}
+.nav-back:hover{border-color:var(--border2);color:var(--text);}
+
+/* ===== ADMIN LOGIN ===== */
+#screen-admin-login{align-items:center;justify-content:center;}
+.login-box{background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:32px;width:100%;max-width:380px;display:flex;flex-direction:column;gap:16px;margin:20px;animation:cardEnter .35s ease;}
+.login-title{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--text3);padding-bottom:14px;border-bottom:1px solid var(--border);}
+.field{display:flex;flex-direction:column;gap:5px;}
+label{font-size:8px;letter-spacing:2px;color:var(--text3);text-transform:uppercase;}
+input,select,textarea{background:var(--bg3);border:1px solid var(--border);border-radius:3px;color:var(--text);font-family:'Share Tech Mono',monospace;font-size:12px;padding:8px 10px;outline:none;width:100%;transition:border-color .15s;}
+input::placeholder,textarea::placeholder{color:var(--text4);}
+input:focus,select:focus,textarea:focus{border-color:var(--border2);}
+select option{background:var(--bg2);}
+textarea{resize:vertical;min-height:56px;}
+.hint{font-size:8px;color:var(--text4);letter-spacing:1px;margin-top:2px;}
+.btn-main{width:100%;background:var(--accent);color:var(--bg);border:none;border-radius:3px;font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:3px;text-transform:uppercase;padding:13px;cursor:pointer;}
+.btn-main:hover{opacity:.85;}
+.btn-main:disabled{opacity:.4;cursor:not-allowed;}
+.err{font-size:10px;color:#ff4444;letter-spacing:1px;min-height:16px;text-align:center;}
+.back-link{font-size:9px;color:var(--text4);letter-spacing:1px;text-align:center;cursor:pointer;text-decoration:underline;}
+.back-link:hover{color:var(--text3);}
+
+/* ===== ADMIN PANEL ===== */
+#screen-admin{flex-direction:column;overflow-y:auto;}
+.admin-body{display:grid;grid-template-columns:380px 1fr;flex:1;overflow:hidden;}
+.sidebar{background:var(--bg2);border-right:1px solid var(--border);padding:18px;display:flex;flex-direction:column;gap:12px;overflow-y:auto;height:calc(100vh - 53px);}
+.sec{font-size:8px;letter-spacing:2.5px;color:var(--text4);text-transform:uppercase;}
+.radio-group{display:flex;gap:8px;}
+.rbtn{flex:1;background:var(--bg3);border:1px solid var(--border);border-radius:3px;color:var(--text3);font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:1px;padding:9px;cursor:pointer;text-align:center;transition:all .15s;user-select:none;}
+.rbtn.on{background:var(--accent);color:var(--bg);border-color:var(--accent);}
+.photo-preview{width:100%;height:110px;background:var(--bg3);border:1px solid var(--border);border-radius:3px;display:flex;align-items:center;justify-content:center;overflow:hidden;}
+.photo-preview img{width:100%;height:100%;object-fit:cover;}
+.photo-ph{font-size:9px;color:var(--text4);letter-spacing:2px;text-transform:uppercase;}
+.export-row{display:flex;gap:8px;}
+
+.main-panel{padding:18px;display:flex;flex-direction:column;gap:14px;overflow-y:auto;height:calc(100vh - 53px);}
+.stats{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;}
+.stat{background:var(--bg2);border:1px solid var(--border);border-radius:4px;padding:10px 12px;}
+.stat-n{font-size:18px;letter-spacing:2px;}
+.stat-l{font-size:7px;letter-spacing:2px;color:var(--text4);text-transform:uppercase;margin-top:3px;}
+.filter-bar{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+.filter-bar input{flex:1;min-width:140px;}
+.filter-bar select{width:130px;}
+.sbtn{background:transparent;border:1px solid var(--border);border-radius:3px;color:var(--text3);font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;padding:8px 10px;cursor:pointer;white-space:nowrap;}
+.sbtn:hover,.sbtn.on{border-color:var(--border2);color:var(--text);}
+.cnt{background:var(--bg2);color:var(--text4);font-size:9px;letter-spacing:2px;padding:4px 10px;border-radius:20px;white-space:nowrap;border:1px solid var(--border);}
+
+/* CARDS */
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:5px;overflow:hidden;animation:fi .2s ease;}
+@keyframes fi{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+.card.expiring{border-color:#6b5000;}
+.ch{padding:10px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+.ch-name{font-size:13px;flex:1;}
+.rp{background:var(--accent);color:var(--bg);font-size:8px;font-weight:bold;letter-spacing:2px;padding:3px 8px;border-radius:2px;}
+.st-ok{background:#0d2b0d;color:#4aff4a;font-size:8px;letter-spacing:2px;padding:3px 8px;border-radius:2px;}
+.st-exp{background:#2b0d0d;color:#ff4444;font-size:8px;letter-spacing:2px;padding:3px 8px;border-radius:2px;}
+.st-frz{background:#0d1a2b;color:#4a9fff;font-size:8px;letter-spacing:2px;padding:3px 8px;border-radius:2px;}
+.st-perm{background:#1a1a0d;color:#aaaa44;font-size:8px;letter-spacing:2px;padding:3px 8px;border-radius:2px;}
+.st-want{background:#2b0d1a;color:#ff44aa;font-size:8px;letter-spacing:2px;padding:3px 8px;border-radius:2px;}
+.st-soon{background:#2b1f0d;color:#ffaa44;font-size:8px;letter-spacing:2px;padding:3px 8px;border-radius:2px;}
+.pass-badge{font-size:9px;letter-spacing:1px;padding:3px 8px;border-radius:2px;border:1px solid #1a3a1a;color:#4aff4a;background:#0d1a0d;}
+.cb{padding:14px;display:flex;flex-direction:column;gap:10px;}
+.cb-top{display:flex;gap:14px;}
+.cb-photo{width:76px;height:95px;flex-shrink:0;background:var(--bg3);border:1px solid var(--border);border-radius:3px;overflow:hidden;display:flex;align-items:center;justify-content:center;}
+.cb-photo img{width:100%;height:100%;object-fit:cover;}
+.cb-photo-ph{font-size:7px;color:var(--text4);letter-spacing:1px;text-align:center;}
+.fg{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;flex:1;}
+.of{display:flex;flex-direction:column;gap:2px;padding-bottom:6px;border-bottom:1px solid var(--border);}
+.of-l{font-size:7px;letter-spacing:2px;color:var(--text4);text-transform:uppercase;}
+.of-v{font-size:11px;color:var(--text2);}
+.note-box{font-size:11px;color:var(--text3);padding:7px 9px;background:var(--bg3);border-radius:3px;border-left:2px solid var(--border);}
+.frz-note{border-left-color:#1a2a3a;color:#4a9fff;}
+.uvnch-note{border-left-color:#2b0d0d;color:#ff6666;}
+.want-note{border-left-color:#ff44aa;color:#ff44aa;}
+.mrz-box{background:var(--bg3);border:1px solid var(--border);border-radius:3px;padding:10px 12px;}
+.mrz-t{font-size:7px;letter-spacing:2px;color:var(--text4);text-transform:uppercase;margin-bottom:6px;}
+.mrz-v{font-size:9px;color:var(--text3);letter-spacing:1px;line-height:2;white-space:pre;word-break:break-all;}
+.hist{display:flex;flex-direction:column;gap:3px;}
+.hist-item{font-size:9px;color:var(--text4);display:flex;gap:8px;}
+.hist-ts{white-space:nowrap;font-size:9px;}
+.brow{display:flex;gap:6px;flex-wrap:wrap;align-items:center;}
+.btn{background:transparent;border:1px solid var(--border);border-radius:3px;color:var(--text3);font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;padding:5px 10px;cursor:pointer;transition:all .15s;}
+.btn:hover{border-color:var(--border2);color:var(--text);}
+.btn.ok{border-color:#4aff4a!important;color:#4aff4a!important;}
+.btn-frz{border-color:#1a2a3a;color:#4a9fff;}
+.btn-unfrz{border-color:#1a2a1a;color:#4aff4a;}
+.btn-edt{border-color:#2a2a1a;color:#aaaa44;}
+.btn-want{border-color:#2b0d1a;color:#ff44aa;}
+.btn-print{border-color:#1a2b1a;color:#4aff4a;}
+.btn-del{color:var(--text4);}
+.btn-del:hover{border-color:#ff4444;color:#ff4444;}
+.expiring-banner{background:#2b1f0d;border:1px solid #6b5000;border-radius:4px;padding:10px 14px;font-size:11px;color:#ffaa44;letter-spacing:1px;}
+.empty{display:flex;align-items:center;justify-content:center;height:200px;font-size:10px;letter-spacing:3px;color:var(--text4);text-transform:uppercase;}
+.tag{font-size:9px;letter-spacing:1px;padding:3px 8px;border-radius:2px;border:1px solid var(--border);color:var(--text3);}
+.tag-uvnch{border-color:#1a2a3a;color:#4a9fff;}
+.tag-promzone{border-color:#2a1a0d;color:#ffaa44;}
+.tag-watch{border-color:#2b0d0d;color:#ff4444;}
+
+/* ===== CITIZEN PORTAL ===== */
+#screen-citizen-login{align-items:center;justify-content:center;}
+
+#screen-citizen-profile{flex-direction:column;}
+.profile-body{max-width:680px;width:100%;margin:0 auto;padding:24px 20px;display:flex;flex-direction:column;gap:14px;}
+.id-card{background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:22px;}
+.id-top{display:flex;gap:18px;margin-bottom:18px;}
+.id-photo{width:88px;height:108px;flex-shrink:0;background:var(--bg3);border:1px solid var(--border);border-radius:3px;overflow:hidden;display:flex;align-items:center;justify-content:center;}
+.id-photo img{width:100%;height:100%;object-fit:cover;}
+.id-photo-ph{font-size:8px;color:var(--text4);letter-spacing:1px;text-align:center;}
+.id-name{font-size:20px;letter-spacing:2px;margin-bottom:8px;}
+.id-rank-badge{display:inline-block;background:#fff;color:#0a0a0a;font-size:10px;font-weight:bold;letter-spacing:3px;padding:4px 12px;border-radius:2px;margin-bottom:14px;}
+.id-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.id-field{display:flex;flex-direction:column;gap:3px;}
+.id-label{font-size:7px;letter-spacing:2px;color:var(--text4);text-transform:uppercase;}
+.id-value{font-size:12px;color:var(--text2);}
+.status-row{display:flex;align-items:center;gap:10px;padding:12px 16px;border-radius:3px;}
+.status-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.status-label{font-size:11px;letter-spacing:2px;}
+.info-block{background:var(--bg2);border:1px solid var(--border);border-radius:3px;padding:14px 16px;}
+.info-block-title{font-size:8px;letter-spacing:2.5px;color:var(--text4);text-transform:uppercase;margin-bottom:10px;}
+.mrz-text{font-size:9px;color:var(--text3);letter-spacing:1px;line-height:2;white-space:pre;word-break:break-all;}
+.hist-c-item{font-size:9px;color:var(--text4);display:flex;gap:8px;margin-bottom:4px;}
+
+/* ===== OVERLAYS ===== */
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:200;align-items:center;justify-content:center;}
+.modal-box{background:var(--bg2);border:1px solid var(--border2);border-radius:6px;padding:22px;width:440px;display:flex;flex-direction:column;gap:12px;max-height:90vh;overflow-y:auto;}
+.modal-box.frz{border-color:#1a2a3a;width:400px;}
+.modal-box.want-m{border-color:#2b0d1a;width:400px;}
+.modal-box.print-m{width:540px;}
+.modal-title{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--text3);padding-bottom:10px;border-bottom:1px solid var(--border);}
+.modal-title.frz{color:#4a9fff;}
+.modal-title.want{color:#ff44aa;}
+.modal-btns{display:flex;gap:10px;}
+.modal-ok{flex:1;background:var(--accent);color:var(--bg);border:none;border-radius:3px;font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:2px;padding:11px;cursor:pointer;}
+.modal-ok.frz{background:#4a9fff;color:#0a0a0a;}
+.modal-ok.want{background:#ff44aa;color:#0a0a0a;}
+.modal-cancel{background:transparent;border:1px solid var(--border);border-radius:3px;color:var(--text3);font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:2px;padding:11px 14px;cursor:pointer;}
+
+/* PRINT */
+.print-card{background:white;color:#111;border-radius:4px;padding:20px;font-family:'Share Tech Mono',monospace;}
+.print-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px;border-bottom:2px solid #111;padding-bottom:10px;}
+.print-title{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:#111;}
+.print-series{font-size:10px;color:#555;}
+.print-body{display:grid;grid-template-columns:76px 1fr;gap:14px;margin-bottom:14px;}
+.print-photo{width:76px;height:95px;background:#eee;border:1px solid #ccc;display:flex;align-items:center;justify-content:center;font-size:8px;color:#999;text-align:center;overflow:hidden;}
+.print-photo img{width:100%;height:100%;object-fit:cover;}
+.print-fields{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.pf{display:flex;flex-direction:column;gap:2px;}
+.pf-l{font-size:7px;letter-spacing:2px;color:#888;text-transform:uppercase;}
+.pf-v{font-size:12px;color:#111;border-bottom:1px solid #ddd;padding-bottom:2px;}
+.print-mrz{font-size:9px;color:#333;letter-spacing:1px;line-height:1.8;white-space:pre;background:#f5f5f5;padding:8px;border-radius:2px;margin-top:10px;word-break:break-all;}
+.print-rank{font-size:26px;font-weight:bold;color:#111;letter-spacing:3px;}
+.print-footer{display:flex;justify-content:space-between;align-items:center;font-size:8px;color:#888;letter-spacing:1px;margin-top:10px;border-top:1px solid #ddd;padding-top:8px;}
+
+.create-status{font-size:9px;letter-spacing:1px;text-align:center;min-height:14px;color:#4a9fff;}
+
+@media(max-width:768px){
+  /* MENU */
+  .menu-title{font-size:20px;letter-spacing:4px;}
+  .menu-cards{flex-direction:column;width:100%;max-width:320px;}
+  .menu-card{padding:22px 28px;min-width:unset;width:100%;}
+  .menu-wrap{gap:28px;padding:32px 16px;}
+
+  /* ADMIN LAYOUT */
+  .admin-body{grid-template-columns:1fr;overflow:visible;}
+  .sidebar{height:auto;border-right:none;border-bottom:1px solid var(--border);position:static;}
+  .main-panel{height:auto;overflow:visible;}
+  #screen-admin{overflow-y:auto;}
+  #screen-admin .topbar-nav{padding:10px 14px;}
+
+  /* STATS */
+  .stats{grid-template-columns:repeat(3,1fr);}
+
+  /* FILTER BAR */
+  .filter-bar{gap:6px;}
+  .filter-bar input{min-width:100%;flex:unset;}
+  .filter-bar select{width:100%;}
+
+  /* CARDS */
+  .cb-top{flex-direction:column;}
+  .cb-photo{width:100%;height:160px;}
+  .fg{grid-template-columns:1fr 1fr;}
+  .brow{gap:5px;}
+  .brow .btn{font-size:8px;padding:5px 8px;}
+
+  /* PROFILE */
+  .profile-body{padding:14px;}
+  .id-top{flex-direction:column;}
+  .id-photo{width:100%;height:180px;}
+  .id-grid{grid-template-columns:1fr;}
+
+  /* MODAL */
+  .modal-box{width:calc(100vw - 32px);margin:16px;}
+  .modal-box.frz,.modal-box.want-m,.modal-box.print-m{width:calc(100vw - 32px);}
+
+  /* LOGIN */
+  .login-box{padding:22px 18px;margin:16px;}
+
+  /* TOPBAR */
+  .topbar-nav{flex-wrap:wrap;gap:8px;}
+  .nav-sub{display:none;}
+}
+
+@media(max-width:480px){
+  .stats{grid-template-columns:1fr 1fr;}
+  .menu-title{font-size:16px;letter-spacing:3px;}
+  .fg{grid-template-columns:1fr;}
+}
+
+@media print{body *{visibility:hidden;}.print-card,.print-card *{visibility:visible;}.print-card{position:fixed;left:0;top:0;width:100%;}}
+</style>
+</head>
+<body>
+
+<!-- ===== MAIN MENU ===== -->
+<div id="screen-menu" class="screen active">
+  <div class="menu-wrap">
+    <div class="menu-logo">
+      <div class="menu-sym">
+        <svg width="60" height="60" viewBox="0 0 1500 1500" fill="none">
+          <path d="M375 375H750V1500H375V375Z" fill="white"></path>
+          <path d="M1125 375H1500V1500H1125V375Z" fill="white"></path>
+          <path d="M0 0H375V375H0V0Z" fill="white"></path>
+          <path d="M750 0H1125V375H750V0Z" fill="white"></path>
+        </svg>
+      </div>
+      <div class="menu-title">Чомск</div>
+      <div class="menu-sub">207 регион · Единый портал</div>
+    </div>
+    <div class="menu-cards">
+      <div class="menu-card" id="goto-admin">
+        <div class="menu-card-title">Администрация</div>
+        <div class="menu-card-sub">Управление базой<br>удостоверений</div>
+      </div>
+      <div class="menu-card" id="goto-citizen">
+        <div class="menu-card-title">Гражданин</div>
+        <div class="menu-card-sub">Проверить своё<br>удостоверение</div>
+      </div>
+    </div>
+    <div id="goto-wanted" style="cursor:pointer;font-size:9px;letter-spacing:2px;color:#ff44aa;text-transform:uppercase;border:1px solid #2b0d1a;border-radius:3px;padding:8px 20px;background:transparent;">⚠ Список · В розыске</div>
+    <div class="menu-footer">Чомск · 207 регион · Администрация города</div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;">
+      <a href="https://t.me/chomsk" target="_blank" style="font-size:9px;letter-spacing:2px;color:var(--text3);text-transform:uppercase;text-decoration:none;border:1px solid var(--border);border-radius:3px;padding:8px 16px;">Канал Чомска</a>
+      <a href="https://t.me/sandromidus" target="_blank" style="font-size:9px;letter-spacing:2px;color:var(--text3);text-transform:uppercase;text-decoration:none;border:1px solid var(--border);border-radius:3px;padding:8px 16px;">Поддержка</a>
+    </div>
+  </div>
+</div>
+
+<!-- ===== ADMIN LOGIN ===== -->
+<div id="screen-admin-login" class="screen">
+  <div class="login-box">
+    <div class="login-title">Вход · Администрация</div>
+    <div class="field"><label>Пароль администратора</label><input id="a-pass" type="password" placeholder="Введите пароль"></div>
+    <button class="btn-main" id="btn-admin-login">Войти</button>
+    <div class="err" id="a-err"></div>
+    <div class="back-link" id="back-from-admin-login">← Назад</div>
+  </div>
+</div>
+
+<!-- ===== ADMIN PANEL ===== -->
+<div id="screen-admin" class="screen">
+  <div class="topbar-nav">
+    <div class="nav-logo">
+      <svg width="26" height="26" viewBox="0 0 1500 1500" fill="none">
+        <path d="M375 375H750V1500H375V375Z" fill="white"></path>
+        <path d="M1125 375H1500V1500H1125V375Z" fill="white"></path>
+        <path d="M0 0H375V375H0V0Z" fill="white"></path>
+        <path d="M750 0H1125V375H750V0Z" fill="white"></path>
+      </svg>
+      <div><div class="nav-title">Администрация</div><div class="nav-sub">Чомск · 207</div></div>
+    </div>
+    <a href="https://t.me/chomsk" target="_blank" class="nav-back" style="text-decoration:none;margin-left:auto;">Канал</a>
+    <a href="https://t.me/sandromidus" target="_blank" class="nav-back" style="text-decoration:none;border-color:#1a2a3a;color:#4a9fff;">Поддержка</a>
+    <button class="nav-back" id="admin-logout">Выйти</button>
+  </div>
+  <div class="admin-body">
+    <div class="sidebar">
+      <div class="sec">Фото</div>
+      <div>
+        <div class="photo-preview" id="photo-preview"><div class="photo-ph">Нет фото</div></div>
+        <input type="file" id="f-photo" accept="image/*" style="font-size:11px;margin-top:6px;width:100%">
+      </div>
+      <div class="sec">Данные</div>
+      <div class="field"><label>Имя и Фамилия</label><input id="f-name" placeholder="Имя Фамилия"></div>
+      <div class="field"><label>Ранг</label>
+        <select id="f-rank">
+          <option value="Р-0">Р-0 — Незарегистрированный</option>
+          <option value="Р-1">Р-1 — Переселенец</option>
+          <option value="Р-2">Р-2 — Рабочий</option>
+          <option value="Р-3">Р-3 — Гражданин Чомска</option>
+          <option value="А-1">А-1 — Сотрудник</option>
+          <option value="А-2">А-2 — Чиновник</option>
+          <option value="А-3">А-3 — Уполномоченный</option>
+          <option value="А-4">А-4 — Зам. главы</option>
+        </select>
+      </div>
+      <div class="field"><label>Пол</label>
+        <div class="radio-group">
+          <div class="rbtn on" id="rb-m">М</div>
+          <div class="rbtn" id="rb-f">Ж</div>
+        </div>
+      </div>
+      <div class="field"><label>Место жительства</label><input id="f-addr" placeholder="Район / адрес"></div>
+      <div class="field"><label>Дата выдачи</label><div style="display:flex;gap:6px;"><input id="f-date" style="flex:1" placeholder="ДД.ММ.ГГГГ"><input type="date" id="f-date-pick" style="width:40px;padding:8px 4px;cursor:pointer;" title="Выбрать дату"></div></div>
+      <div class="field"><label>Срок действия</label><div style="display:flex;gap:6px;"><input id="f-val" placeholder="Пусто — бессрочно" style="flex:1"><input type="date" id="f-val-pick" style="width:40px;padding:8px 4px;cursor:pointer;" title="Выбрать дату"></div></div>
+      <div class="field"><label>Метки</label>
+        <select id="f-tags">
+          <option value="">Без метки</option>
+          <option value="uvnch">УВНЧ</option>
+          <option value="promzone">Промзона</option>
+          <option value="watch">Под наблюдением</option>
+        </select>
+      </div>
+      <div class="field"><label>Заметки</label><textarea id="f-notes" placeholder="Доп. информация..."></textarea></div>
+      <div class="field"><label>Пометка УВНЧ</label><textarea id="f-uvnch" placeholder="Служебная..."></textarea></div>
+      <div class="sec">Доступ к порталу</div>
+      <div class="field">
+        <label>Пароль гражданина</label>
+        <div style="display:flex;gap:6px;">
+          <input id="f-pass" placeholder="Пароль для входа" style="flex:1">
+          <button id="btn-gen-pass" type="button" class="btn" style="white-space:nowrap;flex-shrink:0;padding:8px 10px">↻ Случайный</button>
+        </div>
+        <div class="hint">Выдать гражданину вместе с серией</div>
+      </div>
+      <button class="btn-main" id="btn-create">Создать удостоверение</button>
+      <div class="create-status" id="create-status" style="color: rgb(74, 159, 255);"></div>
+      <div class="sec">База</div>
+      <div class="export-row">
+        <button class="btn" id="btn-export" style="flex:1">↓ Экспорт</button>
+        <label class="btn" style="flex:1;text-align:center;cursor:pointer">↑ Импорт<input type="file" id="btn-import" accept=".json" style="display:none"></label>
+      </div>
+    </div>
+    <div class="main-panel">
+      <div id="expiring-banner" style="display:none"></div>
+      <div class="stats">
+        <div class="stat"><div class="stat-n" id="s-total">0</div><div class="stat-l">Всего</div></div>
+        <div class="stat"><div class="stat-n" id="s-ok" style="color:#4aff4a">0</div><div class="stat-l">Действит.</div></div>
+        <div class="stat"><div class="stat-n" id="s-exp" style="color:#ff4444">0</div><div class="stat-l">Просроч.</div></div>
+        <div class="stat"><div class="stat-n" id="s-frz" style="color:#4a9fff">0</div><div class="stat-l">Заморож.</div></div>
+        <div class="stat"><div class="stat-n" id="s-want" style="color:#ff44aa">0</div><div class="stat-l">Разыск.</div></div>
+      </div>
+      <div class="filter-bar">
+        <input id="t-search" placeholder="Поиск по имени...">
+        <select id="t-rank"><option value="">Все ранги</option><option>Р-0</option><option>Р-1</option><option>Р-2</option><option>Р-3</option><option>А-1</option><option>А-2</option><option>А-3</option><option>А-4</option></select>
+        <select id="t-status"><option value="">Все статусы</option><option value="ok">Действительные</option><option value="exp">Просроченные</option><option value="frz">Замороженные</option><option value="want">В розыске</option></select>
+        <button class="sbtn on" id="sort-date">По дате</button>
+        <button class="sbtn" id="sort-name">А→Я</button>
+        <button class="sbtn" id="sort-exp">По сроку</button>
+        <div class="cnt" id="t-cnt">0</div>
+      </div>
+      <div id="list"><div class="empty">База пуста</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== CITIZEN LOGIN ===== -->
+<div id="screen-citizen-login" class="screen">
+  <div class="login-box">
+    <div class="login-title">Вход · Гражданин</div>
+    <div class="field"><label>Серия удостоверения</label><input id="c-series" placeholder="например: AB 123 4567" autocomplete="off"></div>
+    <div class="field"><label>Пароль</label><input id="c-pass" type="password" placeholder="Пароль доступа" autocomplete="off"></div>
+    <button class="btn-main" id="btn-citizen-login">Войти</button>
+    <div class="err" id="c-err"></div>
+    <div class="back-link" id="back-from-citizen-login">← Назад</div>
+  </div>
+</div>
+
+<!-- ===== CITIZEN PROFILE ===== -->
+<div id="screen-citizen-profile" class="screen">
+  <div class="topbar-nav">
+    <div class="nav-logo">
+      <svg width="26" height="26" viewBox="0 0 1500 1500" fill="none">
+        <path d="M375 375H750V1500H375V375Z" fill="white"></path>
+        <path d="M1125 375H1500V1500H1125V375Z" fill="white"></path>
+        <path d="M0 0H375V375H0V0Z" fill="white"></path>
+        <path d="M750 0H1125V375H750V0Z" fill="white"></path>
+      </svg>
+      <div><div class="nav-title">Портал гражданина</div><div class="nav-sub">Чомск · 207</div></div>
+    </div>
+    <a href="https://t.me/chomsk" target="_blank" class="nav-back" style="text-decoration:none;margin-left:auto;">Канал</a>
+    <a href="https://t.me/sandromidus" target="_blank" class="nav-back" style="text-decoration:none;">Поддержка</a>
+    <button class="nav-back" id="citizen-logout">Выйти</button>
+  </div>
+  <div class="profile-body" id="profile-content"></div>
+</div>
+
+<!-- OVERLAYS -->
+<div class="overlay" id="edit-overlay">
+  <div class="modal-box">
+    <div class="modal-title">Редактировать</div>
+    <div class="field"><label>Имя и Фамилия</label><input id="e-name"></div>
+    <div class="field"><label>Ранг</label>
+      <select id="e-rank">
+        <option value="Р-0">Р-0 — Незарегистрированный</option><option value="Р-1">Р-1 — Переселенец</option>
+        <option value="Р-2">Р-2 — Рабочий</option><option value="Р-3">Р-3 — Гражданин Чомска</option>
+        <option value="А-1">А-1 — Сотрудник</option><option value="А-2">А-2 — Чиновник</option>
+        <option value="А-3">А-3 — Уполномоченный</option><option value="А-4">А-4 — Зам. главы</option>
+      </select>
+    </div>
+    <div class="field"><label>Место жительства</label><input id="e-addr"></div>
+    <div class="field"><label>Дата выдачи</label><div style="display:flex;gap:6px;"><input id="e-date" style="flex:1" placeholder="ДД.ММ.ГГГГ"><input type="date" id="e-date-pick" style="width:40px;padding:8px 4px;cursor:pointer;" title="Выбрать дату"></div></div>
+    <div class="field"><label>Срок действия</label><div style="display:flex;gap:6px;"><input id="e-val" placeholder="Пусто — бессрочно" style="flex:1"><input type="date" id="e-val-pick" style="width:40px;padding:8px 4px;cursor:pointer;" title="Выбрать дату"></div></div>
+    <div class="field"><label>Метки</label>
+      <select id="e-tags"><option value="">Без метки</option><option value="uvnch">УВНЧ</option><option value="promzone">Промзона</option><option value="watch">Под наблюдением</option></select>
+    </div>
+    <div class="field"><label>Заметки</label><textarea id="e-notes"></textarea></div>
+    <div class="field"><label>Пометка УВНЧ</label><textarea id="e-uvnch"></textarea></div>
+    <div class="field"><label>Пароль (изменить)</label><div style="display:flex;gap:6px;"><input id="e-pass" placeholder="Пусто — не менять" style="flex:1"><button id="btn-gen-pass-e" type="button" class="btn" style="white-space:nowrap;flex-shrink:0;padding:8px 10px">↻ Случайный</button></div></div>
+    <div class="modal-btns">
+      <button class="modal-cancel" id="edit-cancel">Отмена</button>
+      <button class="modal-ok" id="edit-save">Сохранить</button>
+    </div>
+  </div>
+</div>
+<div class="overlay" id="frz-overlay">
+  <div class="modal-box frz">
+    <div class="modal-title frz">Заморозить</div>
+    <div class="field"><label>Причина</label><textarea id="frz-reason" placeholder="Причина заморозки..."></textarea></div>
+    <div class="modal-btns"><button class="modal-cancel" id="frz-cancel">Отмена</button><button class="modal-ok frz" id="frz-ok">Заморозить</button></div>
+  </div>
+</div>
+<div class="overlay" id="want-overlay">
+  <div class="modal-box want-m">
+    <div class="modal-title want">Объявить в розыск</div>
+    <div class="field"><label>Причина</label><textarea id="want-reason" placeholder="Причина розыска..."></textarea></div>
+    <div class="modal-btns"><button class="modal-cancel" id="want-cancel">Отмена</button><button class="modal-ok want" id="want-ok">Объявить</button></div>
+  </div>
+</div>
+<div class="overlay" id="print-overlay">
+  <div class="modal-box print-m">
+    <div class="modal-title">Печать</div>
+    <div id="print-area"></div>
+    <div class="modal-btns"><button class="modal-cancel" id="print-cancel">Закрыть</button><button class="modal-ok" id="print-ok">Распечатать</button></div>
+  </div>
+</div>
+
+<!-- Публичный розыск -->
+<div id="screen-wanted" class="screen">
+  <div class="topbar-nav">
+    <div class="nav-logo">
+      <svg width="26" height="26" viewBox="0 0 1500 1500" fill="none">
+        <path d="M375 375H750V1500H375V375Z" fill="white"></path>
+        <path d="M1125 375H1500V1500H1125V375Z" fill="white"></path>
+        <path d="M0 0H375V375H0V0Z" fill="white"></path>
+        <path d="M750 0H1125V375H750V0Z" fill="white"></path>
+      </svg>
+      <div><div class="nav-title">Розыск</div><div class="nav-sub">Чомск · 207</div></div>
+    </div>
+    <a href="https://t.me/chomsk" target="_blank" class="nav-back" style="text-decoration:none;margin-left:auto;">Канал</a>
+    <a href="https://t.me/sandromidus" target="_blank" class="nav-back" style="text-decoration:none;">Поддержка</a>
+    <button class="nav-back" id="wanted-back">← Назад</button>
+  </div>
+  <div style="max-width:680px;width:100%;margin:0 auto;padding:24px 20px;">
+    <div id="wanted-list"></div>
+  </div>
+</div>
+
+<!-- Личное сообщение -->
+<div class="overlay" id="msg-overlay">
+  <div class="modal-box" style="width:420px;border-color:#1a2a3a;">
+    <div class="modal-title" style="color:#4a9fff;">Сообщение гражданину</div>
+    <div class="field"><label>Текст сообщения</label><textarea id="msg-text" placeholder="Текст сообщения..."></textarea></div>
+    <div class="err" id="msg-err" style="font-size:10px;min-height:16px;"></div>
+    <div class="modal-btns">
+      <button class="modal-cancel" id="msg-cancel">Отмена</button>
+      <button class="modal-ok" id="msg-ok" style="background:#4a9fff;color:#0a0a0a;">Отправить</button>
+    </div>
+  </div>
+</div>
+
+<!-- Штраф -->
+<div class="overlay" id="fine-overlay">
+  <div class="modal-box" style="width:420px;border-color:#3a1a00;">
+    <div class="modal-title" style="color:#ff6600;">⚡ Выписать штраф</div>
+    <div class="field"><label>Описание штрафа</label><textarea id="fine-text" placeholder="За что штраф..."></textarea></div>
+    <div class="err" id="fine-err" style="font-size:10px;min-height:16px;"></div>
+    <div class="modal-btns">
+      <button class="modal-cancel" id="fine-cancel">Отмена</button>
+      <button class="modal-ok" id="fine-ok" style="background:#ff6600;color:#0a0a0a;">Выписать</button>
+    </div>
+  </div>
+</div>
+
+<!-- Доп. метка -->
+<div class="overlay" id="extratag-overlay">
+  <div class="modal-box" style="width:380px;border-color:#2a2a1a;">
+    <div class="modal-title" style="color:#aaa;">🏷 Дополнительная метка</div>
+    <div class="field"><label>Выберите метку</label>
+      <select id="extratag-select">
+        <option value="volunteer">Доброволец</option>
+        <option value="debtor">Должник</option>
+        <option value="vip">VIP</option>
+      </select>
+    </div>
+    <div style="font-size:9px;color:#444;letter-spacing:1px;margin-top:-4px;">Нажмите ещё раз чтобы снять метку</div>
+    <div class="modal-btns">
+      <button class="modal-cancel" id="extratag-cancel">Отмена</button>
+      <button class="modal-ok" id="extratag-ok">Применить</button>
+    </div>
+  </div>
+</div>
+
+<!-- Продление срока -->
+<div class="overlay" id="extend-overlay">
+  <div class="modal-box" style="width:420px;border-color:#1a2a1a;">
+    <div class="modal-title" style="color:#4aff4a;">Заявка на продление срока</div>
+    <div class="field"><label>Причина продления</label><textarea id="extend-req-text" placeholder="Почему нужно продлить срок действия удостоверения..."></textarea></div>
+    <div class="err" id="extend-req-err" style="font-size:10px;min-height:16px;"></div>
+    <div class="modal-btns">
+      <button class="modal-cancel" id="extend-req-cancel">Отмена</button>
+      <button class="modal-ok" id="extend-req-ok" style="background:#4aff4a;color:#0a0a0a;">Отправить заявку</button>
+    </div>
+  </div>
+</div>
+
+<!-- Заявка на ранг -->
+<div class="overlay" id="rank-overlay">
+  <div class="modal-box" style="width:420px;border-color:#1a2a3a;">
+    <div class="modal-title" style="color:#4a9fff;">Заявка на повышение ранга</div>
+    <div class="field"><label>Желаемый ранг</label>
+      <select id="rank-req-select">
+        <option value="Р-0">Р-0 — Незарегистрированный</option>
+        <option value="Р-1">Р-1 — Переселенец</option>
+        <option value="Р-2">Р-2 — Рабочий</option>
+        <option value="Р-3">Р-3 — Гражданин Чомска</option>
+        <option value="А-1">А-1 — Сотрудник</option>
+        <option value="А-2">А-2 — Чиновник</option>
+        <option value="А-3">А-3 — Уполномоченный</option>
+        <option value="А-4">А-4 — Зам. главы</option>
+      </select>
+    </div>
+    <div class="field"><label>Причина / обоснование</label><textarea id="rank-req-text" placeholder="Почему вы хотите повысить ранг..."></textarea></div>
+    <div class="err" id="rank-req-err" style="font-size:10px;min-height:16px;"></div>
+    <div class="modal-btns">
+      <button class="modal-cancel" id="rank-req-cancel">Отмена</button>
+      <button class="modal-ok" id="rank-req-ok" style="background:#4a9fff;color:#0a0a0a;">Отправить заявку</button>
+    </div>
+  </div>
+</div>
+
+<!-- Сообщить об ошибке -->
+<div class="overlay" id="error-overlay">
+  <div class="modal-box" style="width:420px;border-color:#2a1a0d;">
+    <div class="modal-title" style="color:#ffaa44;">Сообщить об ошибке в данных</div>
+    <div class="field"><label>Описание ошибки</label><textarea id="error-req-text" placeholder="Что именно неверно в ваших данных..."></textarea></div>
+    <div class="err" id="error-req-err" style="font-size:10px;min-height:16px;"></div>
+    <div class="modal-btns">
+      <button class="modal-cancel" id="error-req-cancel">Отмена</button>
+      <button class="modal-ok" id="error-req-ok" style="background:#ffaa44;color:#0a0a0a;">Отправить</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ========== STATE ==========
+var TG_TOKEN = '8750803345:AAH_ArYfSAWTtAYpWQ-e6LvpngmNdhwLI-0';
+var TG_CHATS = ['949707716', '2131859816'];
+
+async function tgSend(text) {
+  for(var i=0;i<TG_CHATS.length;i++){
+    try {
+      await fetch('https://api.telegram.org/bot'+TG_TOKEN+'/sendMessage', {
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({chat_id:TG_CHATS[i], text:text, parse_mode:'HTML'})
+      });
+    } catch(e) {}
+  }
+}
+var DB = [], C = 1, G = 'M', SORT = 'date';
+
+async function sha256(str) {
+  var buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
+  return Array.from(new Uint8Array(buf)).map(function(b){return b.toString(16).padStart(2,'0');}).join('');
+}
+var EDIT_ID = null, FRZ_ID = null, WANT_ID = null, MSG_ID = null;
+var PHOTO_DATA = null;
+var ADMIN_PASSWORD = null; // загружается из Supabase
+
+// ========== SCREENS ==========
+function show(id) {
+  document.querySelectorAll('.screen').forEach(function(s){s.classList.remove('active');});
+  document.getElementById(id).classList.add('active');
+  try{localStorage.setItem('chomsk_screen',id);}catch(e){}
+}
+
+// ========== DB ==========
+// ========== JSONBIN ==========
+var SUPABASE_URL = 'https://dxfxwdrteglmmqgpaijn.supabase.co';
+var SUPABASE_KEY = 'sb_publishable_GGqFffbxxtAN6AH4vK-8aA_kYwKtkHB';
+var SAVING = false;
+
+function sbHeaders() {
+  return {'Content-Type':'application/json','apikey':SUPABASE_KEY,'Authorization':'Bearer '+SUPABASE_KEY};
+}
+
+async function dbSave() {
+  if(SAVING) return;
+  SAVING = true;
+  try {
+    // Удаляем всё и вставляем заново (upsert по id)
+    var rows = DB.map(function(e){ return {id: e.id, data: e}; });
+    // Сначала получаем существующие id чтобы понять что удалить
+    var delRes = await fetch(SUPABASE_URL+'/rest/v1/citizens?select=id', {headers: sbHeaders()});
+    var existing = await delRes.json();
+    var existingIds = (existing||[]).map(function(r){return r.id;});
+    var newIds = DB.map(function(e){return e.id;});
+    var toDelete = existingIds.filter(function(id){return newIds.indexOf(id)<0;});
+    // Удаляем старые
+    if(toDelete.length) {
+      await fetch(SUPABASE_URL+'/rest/v1/citizens?id=in.('+toDelete.join(',')+')', {method:'DELETE', headers: sbHeaders()});
+    }
+    // Upsert всех
+    if(rows.length) {
+      await fetch(SUPABASE_URL+'/rest/v1/citizens', {
+        method:'POST',
+        headers: Object.assign({}, sbHeaders(), {'Prefer':'resolution=merge-duplicates'}),
+        body: JSON.stringify(rows)
+      });
+    }
+  } catch(e) {}
+  SAVING = false;
+  try{localStorage.setItem('chomsk_v2',JSON.stringify(DB));localStorage.setItem('chomsk_c2',String(C));}catch(e){}
+}
+
+async function dbSaveOne(entry) {
+  try {
+    await fetch(SUPABASE_URL+'/rest/v1/citizens', {
+      method:'POST',
+      headers: Object.assign({}, sbHeaders(), {'Prefer':'resolution=merge-duplicates'}),
+      body: JSON.stringify([{id: entry.id, data: entry}])
+    });
+  } catch(e) {}
+  try{localStorage.setItem('chomsk_v2',JSON.stringify(DB));localStorage.setItem('chomsk_c2',String(C));}catch(e){}
+}
+
+async function dbDeleteOne(id) {
+  try {
+    await fetch(SUPABASE_URL+'/rest/v1/citizens?id=eq.'+id, {method:'DELETE', headers: sbHeaders()});
+  } catch(e) {}
+}
+
+async function dbLoad() {
+  var st = document.getElementById('create-status');
+  if(st){st.textContent='Загрузка базы...';st.style.color='#4a9fff';}
+  try {
+    var res = await fetch(SUPABASE_URL+'/rest/v1/citizens?select=data&order=created_at.desc', {headers: sbHeaders()});
+    var rows = await res.json();
+    if(Array.isArray(rows) && rows.length >= 0) {
+      DB = rows.map(function(r){return r.data;});
+      DB.forEach(function(e){
+        if(!e.history)e.history=[];if(!e.frozenReason)e.frozenReason='';
+        if(!e.wantReason)e.wantReason='';if(!e.tags)e.tags='';
+        if(!e.uvnch)e.uvnch='';if(!e.photo)e.photo='';
+        if(!e.password)e.password='';e.id=String(e.id);
+      });
+      C = DB.length + 1;
+    }
+  } catch(e) {
+    try{
+      var d=localStorage.getItem('chomsk_v2'),c=localStorage.getItem('chomsk_c2');
+      if(d){DB=JSON.parse(d);DB.forEach(function(e){if(!e.history)e.history=[];if(!e.frozenReason)e.frozenReason='';if(!e.wantReason)e.wantReason='';if(!e.tags)e.tags='';if(!e.uvnch)e.uvnch='';if(!e.photo)e.photo='';if(!e.password)e.password='';e.id=String(e.id);});}
+      if(c)C=parseInt(c)||1;
+    }catch(e2){}
+  }
+  if(st){st.textContent='';}
+  // Загружаем пароль админа из Supabase
+  try {
+    var cfgRes = await fetch(SUPABASE_URL+'/rest/v1/config?key=eq.admin_password&select=value', {headers: sbHeaders()});
+    var cfgData = await cfgRes.json();
+    if(cfgData && cfgData[0]) ADMIN_PASSWORD = cfgData[0].value;
+  } catch(e) {}
+}
+
+// ========== HELPERS ==========
+function rnd(n){var s='';for(var i=0;i<n;i++)s+=Math.floor(Math.random()*10);return s;}
+function rndL(n){var a='ABCDEFGHJKLMNPQRSTUVWXYZ',s='';for(var i=0;i<n;i++)s+=a[Math.floor(Math.random()*a.length)];return s;}
+function pad(s,n){s=String(s);while(s.length<n)s+='<';return s.slice(0,n);}
+function tr(name){
+  var m={'а':'A','б':'B','в':'V','г':'G','д':'D','е':'E','ё':'E','ж':'ZH','з':'Z','и':'I','й':'Y','к':'K','л':'L','м':'M','н':'N','о':'O','п':'P','р':'R','с':'S','т':'T','у':'U','ф':'F','х':'KH','ц':'TS','ч':'CH','ш':'SH','щ':'SCH','ъ':'','ы':'Y','ь':'','э':'E','ю':'YU','я':'YA'};
+  var res='';for(var i=0;i<name.length;i++){var c=name[i].toLowerCase();res+=(m[c]!==undefined?m[c]:name[i].toUpperCase());}return res;
+}
+function nowStr(){var n=new Date();return('0'+n.getDate()).slice(-2)+'.'+('0'+(n.getMonth()+1)).slice(-2)+'.'+n.getFullYear()+' '+('0'+n.getHours()).slice(-2)+':'+('0'+n.getMinutes()).slice(-2);}
+function parseDate(s){if(!s||!s.trim())return null;var p=s.trim().split('.');if(p.length<3)return null;return new Date(parseInt(p[2]),parseInt(p[1])-1,parseInt(p[0]),23,59,59);}
+function daysUntil(s){var exp=parseDate(s);if(!exp)return null;return Math.ceil((exp-new Date())/(1000*60*60*24));}
+function getStatus(e){
+  if(e.wanted)return{label:'В РОЗЫСКЕ',cls:'st-want',dotColor:'#ff44aa',bgCls:'status-want'};
+  if(e.frozen)return{label:'ЗАМОРОЖЕНО',cls:'st-frz',dotColor:'#4a9fff',bgCls:'status-frz'};
+  if(!e.val||!e.val.trim())return{label:'БЕССРОЧНО',cls:'st-perm',dotColor:'#aaaa44',bgCls:'status-perm'};
+  var exp=parseDate(e.val);if(!exp)return{label:'БЕССРОЧНО',cls:'st-perm',dotColor:'#aaaa44',bgCls:'status-perm'};
+  var days=daysUntil(e.val);
+  if(exp<new Date())return{label:'ПРОСРОЧЕНО',cls:'st-exp',dotColor:'#ff4444',bgCls:'status-exp'};
+  if(days<=7)return{label:'СКОРО ИСТЕКАЕТ',cls:'st-soon',dotColor:'#ffaa44',bgCls:'status-soon'};
+  return{label:'ДЕЙСТВИТЕЛЬНО',cls:'st-ok',dotColor:'#4aff4a',bgCls:'status-ok'};
+}
+function findById(id){for(var i=0;i<DB.length;i++){if(String(DB[i].id)===String(id))return DB[i];}return null;}
+function tagHtml(tag){
+  if(!tag)return'';
+  var map={uvnch:'УВНЧ',promzone:'Промзона',watch:'Под наблюдением'};
+  var cls={uvnch:'tag-uvnch',promzone:'tag-promzone',watch:'tag-watch'};
+  return'<span class="tag '+(cls[tag]||'')+'">'+(map[tag]||tag)+'</span>';
+}
+function cpText(btn,text){
+  var ta=document.createElement('textarea');ta.value=text;ta.style.cssText='position:fixed;opacity:0;top:0;left:0;width:1px;height:1px';
+  document.body.appendChild(ta);ta.focus();ta.select();try{document.execCommand('copy');}catch(e){}document.body.removeChild(ta);
+  var orig=btn.textContent;btn.textContent='✓';btn.classList.add('ok');setTimeout(function(){btn.textContent=orig;btn.classList.remove('ok');},1500);
+}
+
+// ========== CREATE ==========
+async function createEntry(){
+  var name=document.getElementById('f-name').value.trim();
+  var addr=document.getElementById('f-addr').value.trim();
+  var date=document.getElementById('f-date').value.trim();
+  if(!name||!addr||!date){alert('Заполните имя, адрес и дату');return;}
+  var rank=document.getElementById('f-rank').value;
+  var val=document.getElementById('f-val').value.trim();
+  var notes=document.getElementById('f-notes').value.trim();
+  var uvnch=document.getElementById('f-uvnch').value.trim();
+  var tags=document.getElementById('f-tags').value;
+  var passRaw=document.getElementById('f-pass').value.trim();
+  var pass=passRaw?await sha256(passRaw):'';
+
+  var dp=date.split('.');
+  var ds=(dp[0]||'01')+(dp[1]||'04')+((dp[2]||'2026').slice(-2));
+  var serial=('0000'+C).slice(-4);C++;
+  var series=rndL(2)+' '+rnd(3)+' '+rnd(4);
+  var udNum='УД-207-'+serial;
+  var pts=name.split(/\s+/);
+  var fn=tr(pts[0]||'CITIZEN'),ln=tr(pts[1]||'');
+  var rc=rank.replace(/[^А-ЯЁA-Z0-9]/gi,'').toUpperCase().slice(0,3);
+  var c1=rndL(3),c2=rndL(2)+serial,c3=rndL(1)+rnd(2),c4=rndL(2)+rnd(5);
+  var m1=pad(rc+'<'+fn+'<'+ln+'<'+G+'<<<<<'+c1+'<'+c2+'<'+c3+'<'+c4,44);
+  var m2=pad('<<<<<<<<'+ds+'<<<<<<<<<<<<<<<<<<<<<<<<<<<<<',44);
+  var m3=pad('<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<207',44);
+  var entry={
+    id:String(Date.now()),name:name,rank:rank,addr:addr,date:date,val:val,
+    notes:notes,uvnch:uvnch,tags:tags,photo:PHOTO_DATA||'',
+    series:series,udNum:udNum,vert:c1+'<'+c2+'<'+c3+'<'+c4,
+    mrz:m1+'\n'+m2+'\n'+m3,
+    frozen:false,frozenReason:'',wanted:false,wantReason:'',
+    password:pass, passwordPlain:passRaw,
+    history:[{ts:nowStr(),action:'Удостоверение выдано'}]
+  };
+  DB.unshift(entry);
+  var st=document.getElementById('create-status');
+  st.textContent='Сохранение...';st.style.color='#4a9fff';
+  await dbSaveOne(entry);
+  st.textContent='✓ Создано: '+entry.series;
+  st.style.color='#4aff4a';
+  setTimeout(function(){st.textContent='';},3000);
+  render();
+  ['f-name','f-addr','f-val','f-notes','f-uvnch','f-pass'].forEach(function(id){document.getElementById(id).value='';});
+  document.getElementById('f-tags').value='';
+  PHOTO_DATA=null;
+  document.getElementById('photo-preview').innerHTML='<div class="photo-ph">Нет фото</div>';
+}
+
+// ========== STATS / RENDER ==========
+function updateStats(){
+  var ok=0,exp=0,frz=0,want=0;
+  DB.forEach(function(e){
+    var s=getStatus(e);
+    if(e.wanted)want++;else if(e.frozen)frz++;else if(s.cls==='st-exp')exp++;else ok++;
+  });
+  document.getElementById('s-total').textContent=DB.length;
+  document.getElementById('s-ok').textContent=ok;
+  document.getElementById('s-exp').textContent=exp;
+  document.getElementById('s-frz').textContent=frz;
+  document.getElementById('s-want').textContent=want;
+  var expiring=DB.filter(function(e){if(e.frozen||e.wanted||!e.val)return false;var d=daysUntil(e.val);return d!==null&&d>=0&&d<=7;});
+  var banner=document.getElementById('expiring-banner');
+  if(expiring.length){banner.style.display='block';banner.innerHTML='⚠ Скоро истекает: '+expiring.map(function(e){return e.name+' ('+daysUntil(e.val)+' дн.)';}).join(', ');}
+  else banner.style.display='none';
+}
+
+function rankColor(rank){
+  var map={'Р-0':'#555','Р-1':'#7a6a3a','Р-2':'#3a5a7a','Р-3':'#3a7a5a','А-1':'#7a3a7a','А-2':'#7a5a3a','А-3':'#5a3a7a','А-4':'#8a7a2a'};
+  return map[rank]||'#444';
+}
+function rankAccent(rank){
+  var map={'Р-0':'#888','Р-1':'#ffcc44','Р-2':'#4a9fff','Р-3':'#4aff4a','А-1':'#cc44ff','А-2':'#ffaa44','А-3':'#aa44ff','А-4':'#ffd700'};
+  return map[rank]||'#fff';
+}
+
+function render(){
+  var q=(document.getElementById('t-search').value||'').toLowerCase().trim();
+  var rf=document.getElementById('t-rank').value;
+  var rs=document.getElementById('t-status').value;
+  var list=DB.filter(function(e){
+    if(q&&e.name.toLowerCase().indexOf(q)<0)return false;
+    if(rf&&e.rank!==rf)return false;
+    if(rs){var s=getStatus(e);if(rs==='ok'&&s.cls!=='st-ok'&&s.cls!=='st-perm'&&s.cls!=='st-soon')return false;if(rs==='exp'&&s.cls!=='st-exp')return false;if(rs==='frz'&&!e.frozen)return false;if(rs==='want'&&!e.wanted)return false;}
+    return true;
+  });
+  if(SORT==='name')list.sort(function(a,b){return a.name.localeCompare(b.name,'ru');});
+  if(SORT==='exp')list.sort(function(a,b){
+    var da=a.val?daysUntil(a.val):9999;
+    var db=b.val?daysUntil(b.val):9999;
+    if(da===null)da=9999;if(db===null)db=9999;
+    return da-db;
+  });
+  var n=list.length;
+  document.getElementById('t-cnt').textContent=n;
+  updateStats();
+  var el=document.getElementById('list');
+  if(!n){el.innerHTML='<div class="empty">'+(DB.length===0?'База пуста':'Ничего не найдено')+'</div>';return;}
+  var html='';
+  list.forEach(function(e){
+    var st=getStatus(e);
+    var valD=e.val?'до '+e.val:'Бессрочно';
+    var days=e.val?daysUntil(e.val):null;
+    var accent=rankAccent(e.rank);
+    var expClass=(days!==null&&days>=0&&days<=7&&!e.frozen&&!e.wanted)?' expiring':'';
+
+    var photoHtml=e.photo?'<img src="'+e.photo+'" style="width:100%;height:100%;object-fit:cover">':'<div class="cb-photo-ph">нет<br>фото</div>';
+
+    var passHtml=e.passwordPlain
+      ?'<span class="pass-badge">'+e.passwordPlain+'</span><button class="btn" data-action="cp-pass" data-id="'+e.id+'" style="font-size:8px;padding:2px 6px;">⎘</button>'
+      :e.password?'<span class="pass-badge" style="color:#555;font-size:8px">●●●●●●●●</span>'
+      :'<span style="font-size:9px;color:#2a2a2a;">нет пароля</span>';
+
+    var tagsHtml=tagHtml(e.tags);
+    // Доп метки
+    if(e.extraTags&&e.extraTags.length){
+      e.extraTags.forEach(function(t){
+        var tmap={volunteer:'#4aff4a',debtor:'#ff4444',vip:'#ffd700'};
+        var tlmap={volunteer:'Доброволец',debtor:'Должник',vip:'VIP'};
+        tagsHtml+='<span class="tag" style="border-color:'+( tmap[t]||'#555')+';color:'+(tmap[t]||'#888')+'">'+(tlmap[t]||t)+'</span>';
+      });
+    }
+    // Штрафы
+    var finesHtml='';
+    if(e.fines&&e.fines.length){
+      finesHtml='<div style="background:#1a0a00;border:1px solid #3a1a00;border-radius:3px;padding:8px 10px;display:flex;flex-direction:column;gap:4px;">'+
+        '<div style="font-size:7px;letter-spacing:2px;color:#ff6600;text-transform:uppercase;margin-bottom:2px;">Штрафы ('+e.fines.length+')</div>'+
+        e.fines.map(function(f,i){return'<div style="display:flex;justify-content:space-between;align-items:center;gap:8px;"><span style="font-size:11px;color:#ffaa44;">'+f.text+'</span><span style="font-size:9px;color:#555;">'+f.ts+'</span><button class="btn" data-action="rm-fine" data-id="'+e.id+'" data-fidx="'+i+'" style="font-size:8px;padding:2px 6px;color:#ff4444;">✕</button></div>';}).join('')+
+      '</div>';
+    }
+
+    var hist='';
+    if(e.history&&e.history.length){
+      var hh=e.history.slice().reverse().slice(0,3);
+      hist='<div class="hist">'+hh.map(function(h){return'<div class="hist-item"><span class="hist-ts">'+h.ts+'</span><span>'+h.action+'</span></div>';}).join('')+'</div>';
+    }
+
+    var daysLeft='';
+    if(e.val&&!e.frozen&&!e.wanted){
+      var dl=daysUntil(e.val);
+      if(dl!==null&&dl>0) daysLeft='<span style="font-size:8px;color:'+(dl<=7?'#ffaa44':'#444')+';">'+(dl<=7?'⚠ ':'')+dl+' дн.</span>';
+      else if(dl!==null&&dl<=0) daysLeft='<span style="font-size:8px;color:#ff4444;">истёк</span>';
+    }
+    var frzBtn=e.frozen
+      ?'<button class="btn" data-action="unfrz" data-id="'+e.id+'" style="border-color:#1a2a1a;color:#4aff4a">↺ Восст.</button>'
+      :'<button class="btn btn-frz" data-action="frz" data-id="'+e.id+'">❄ Заморозить</button>';
+    var wantBtn=e.wanted
+      ?'<button class="btn" data-action="unwant" data-id="'+e.id+'" style="border-color:#2b0d1a;color:#ff44aa">✓ С розыска</button>'
+      :'<button class="btn btn-want" data-action="want" data-id="'+e.id+'">⚠ Розыск</button>';
+
+
+    html+='<div class="card'+expClass+'">'+
+      '<div class="ch">'+
+        '<div class="ch-name">'+e.name+'</div>'+
+        '<div class="rp">'+e.rank+'</div>'+
+        '<div class="'+st.cls+'">'+st.label+'</div>'+
+        tagsHtml+passHtml+
+      '</div>'+
+      '<div class="cb">'+
+        '<div class="cb-top">'+
+          '<div class="cb-photo">'+photoHtml+'</div>'+
+          '<div class="fg">'+
+            '<div class="of"><div class="of-l">Серия</div><div class="of-v">'+e.series+'</div></div>'+
+            '<div class="of"><div class="of-l">Номер УД</div><div class="of-v">'+e.udNum+'</div></div>'+
+            '<div class="of"><div class="of-l">Дата выдачи</div><div class="of-v">'+e.date+'</div></div>'+
+            '<div class="of"><div class="of-l">Адрес</div><div class="of-v">'+e.addr+'</div></div>'+
+            '<div class="of"><div class="of-l">Срок</div><div class="of-v">'+valD+daysLeft+'</div></div>'+
+            '<div class="of"><div class="of-l">Верт. код</div><div class="of-v" style="font-size:10px;color:var(--text4)">'+e.vert+'</div></div>'+
+          '</div>'+
+        '</div>'+
+        (e.notes?'<div class="note-box">'+e.notes+'</div>':'')+
+        (e.frozenReason?'<div class="note-box frz-note">❄ '+e.frozenReason+'</div>':'')+
+        (e.wantReason?'<div class="note-box want-note">⚠ '+e.wantReason+'</div>':'')+
+        (e.uvnch?'<div class="note-box uvnch-note">УВНЧ: '+e.uvnch+'</div>':'')+
+        finesHtml+
+        hist+
+        '<div class="brow">'+
+          '<button class="btn" data-action="cp-series" data-id="'+e.id+'">Серия</button>'+
+          '<button class="btn" data-action="cp-all" data-id="'+e.id+'">Всё</button>'+
+          '<button class="btn btn-edt" data-action="edit" data-id="'+e.id+'">✎ Ред.</button>'+
+          '<button class="btn btn-print" data-action="print" data-id="'+e.id+'">🖨 Печать</button>'+
+          '<button class="btn" data-action="extend30" data-id="'+e.id+'" style="border-color:#1a2a1a;color:#4aff4a;">+30 дней</button>'+
+          '<button class="btn" data-action="fine" data-id="'+e.id+'" style="border-color:#3a1a00;color:#ff6600;">⚡ Штраф</button>'+
+          '<button class="btn" data-action="extratag" data-id="'+e.id+'" style="border-color:#2a2a1a;color:#aaa;">🏷 Метка</button>'+
+          frzBtn+wantBtn+
+          '<button class="btn" data-action="msg" data-id="'+e.id+'" style="border-color:#1a2a3a;color:#4a9fff;">✉ Сообщение</button>'+
+          '<button class="btn btn-del" data-action="del" data-id="'+e.id+'" style="margin-left:auto">✕</button>'+
+        '</div>'+
+      '</div>'+
+    '</div>';
+  });
+  el.innerHTML=html;
+}
+
+// ========== ACTIONS ==========
+async function deleteEntry(id){if(!confirm('Удалить?'))return;DB=DB.filter(function(e){return String(e.id)!==String(id);});await dbDeleteOne(id);render();}
+function openFrz(id){FRZ_ID=String(id);document.getElementById('frz-reason').value='';document.getElementById('frz-overlay').style.display='flex';}
+function closeFrz(){FRZ_ID=null;document.getElementById('frz-overlay').style.display='none';}
+async function doFreeze(){var e=findById(FRZ_ID);if(!e){closeFrz();return;}e.frozen=true;e.frozenReason=document.getElementById('frz-reason').value.trim();e.history.push({ts:nowStr(),action:'Заморожено'+(e.frozenReason?': '+e.frozenReason:'')});closeFrz();await dbSaveOne(e);render();}
+async function doUnfreeze(id){var e=findById(id);if(!e)return;e.frozen=false;e.frozenReason='';e.history.push({ts:nowStr(),action:'Восстановлено'});await dbSaveOne(e);render();}
+function openWant(id){WANT_ID=String(id);document.getElementById('want-reason').value='';document.getElementById('want-overlay').style.display='flex';}
+function closeWant(){WANT_ID=null;document.getElementById('want-overlay').style.display='none';}
+async function doWant(){var e=findById(WANT_ID);if(!e){closeWant();return;}e.wanted=true;e.wantReason=document.getElementById('want-reason').value.trim();e.history.push({ts:nowStr(),action:'Объявлен в розыск'+(e.wantReason?': '+e.wantReason:'')});closeWant();await dbSaveOne(e);render();}
+async function doUnwant(id){var e=findById(id);if(!e)return;e.wanted=false;e.wantReason='';e.history.push({ts:nowStr(),action:'Снят с розыска'});await dbSaveOne(e);render();}
+function openEdit(id){
+  var e=findById(id);if(!e)return;EDIT_ID=String(id);
+  document.getElementById('e-name').value=e.name;
+  document.getElementById('e-rank').value=e.rank;
+  document.getElementById('e-addr').value=e.addr;
+  document.getElementById('e-date').value=e.date;
+  document.getElementById('e-val').value=e.val||'';
+  document.getElementById('e-tags').value=e.tags||'';
+  document.getElementById('e-notes').value=e.notes||'';
+  document.getElementById('e-uvnch').value=e.uvnch||'';
+  document.getElementById('e-pass').value='';
+  document.getElementById('edit-overlay').style.display='flex';
+}
+function closeEdit(){EDIT_ID=null;document.getElementById('edit-overlay').style.display='none';}
+async function doEdit(){
+  var e=findById(EDIT_ID);if(!e){closeEdit();return;}
+  var name=document.getElementById('e-name').value.trim();if(name)e.name=name;
+  e.rank=document.getElementById('e-rank').value;
+  e.addr=document.getElementById('e-addr').value.trim()||e.addr;
+  e.date=document.getElementById('e-date').value.trim()||e.date;
+  e.val=document.getElementById('e-val').value.trim();
+  e.tags=document.getElementById('e-tags').value;
+  e.notes=document.getElementById('e-notes').value.trim();
+  e.uvnch=document.getElementById('e-uvnch').value.trim();
+  var np=document.getElementById('e-pass').value.trim();if(np){e.passwordPlain=np;e.password=await sha256(np);}
+  e.history.push({ts:nowStr(),action:'Данные обновлены'});
+  closeEdit();await dbSaveOne(e);render();
+}
+function openPrint(id){
+  var e=findById(id);if(!e)return;
+  var valD=e.val?'до '+e.val:'Бессрочно';
+  var photoHtml=e.photo?'<img src="'+e.photo+'" style="width:100%;height:100%;object-fit:cover">':'Фото';
+  document.getElementById('print-area').innerHTML='<div class="print-card" id="the-print-card">'+
+    '<div class="print-header"><div><div class="print-title">Регистрационное удостоверение</div><div style="font-size:8px;color:#888;margin-top:2px;letter-spacing:1px;">Администрация г. Чомска · 207 регион</div></div>'+
+    '<div style="text-align:right"><div class="print-series">'+e.series+'</div><div class="print-rank">'+e.rank+'</div></div></div>'+
+    '<div class="print-body"><div class="print-photo">'+photoHtml+'</div>'+
+    '<div class="print-fields">'+
+    '<div class="pf" style="grid-column:1/-1"><div class="pf-l">Имя / Фамилия</div><div class="pf-v" style="font-size:15px">'+e.name+'</div></div>'+
+    '<div class="pf"><div class="pf-l">Номер УД</div><div class="pf-v">'+e.udNum+'</div></div>'+
+    '<div class="pf"><div class="pf-l">Дата выдачи</div><div class="pf-v">'+e.date+'</div></div>'+
+    '<div class="pf"><div class="pf-l">Место жительства</div><div class="pf-v">'+e.addr+'</div></div>'+
+    '<div class="pf"><div class="pf-l">Срок действия</div><div class="pf-v">'+valD+'</div></div>'+
+    '</div></div>'+
+    '<div class="print-mrz">'+e.mrz+'</div>'+
+    (e.passwordPlain?'<div style="margin-top:10px;padding:8px;background:#f5f5f5;border-radius:2px;font-size:11px;color:#555;">Серия: <strong>'+e.series+'</strong> · Пароль портала: <strong>'+e.passwordPlain+'</strong></div>':'')+
+    '<div class="print-footer"><span>'+e.udNum+'</span><span>Чомск · 207 регион</span><div id="pqr" style="width:44px;height:44px"></div></div>'+
+    '</div>';
+  setTimeout(function(){try{new QRCode(document.getElementById('pqr'),{text:e.udNum+' '+e.name,width:44,height:44,colorDark:'#111',colorLight:'#fff',correctLevel:QRCode.CorrectLevel.M});}catch(err){}},100);
+  document.getElementById('print-overlay').style.display='flex';
+}
+function closePrint(){document.getElementById('print-overlay').style.display='none';}
+
+// ========== WANTED ==========
+function renderWanted(){
+  var wanted=DB.filter(function(e){return e.wanted;});
+  var el=document.getElementById('wanted-list');
+  if(!wanted.length){
+    el.innerHTML='<div class="empty" style="color:#2b0d1a;border:1px solid #2b0d1a;border-radius:4px;background:#0d0005;">В розыске никого нет</div>';
+    return;
+  }
+  var html='<div style="font-size:8px;letter-spacing:3px;color:#ff44aa;text-transform:uppercase;margin-bottom:16px;">В розыске · '+wanted.length+' чел.</div>';
+  wanted.forEach(function(e){
+    var photoHtml=e.photo?'<img src="'+e.photo+'" style="width:100%;height:100%;object-fit:cover">':'<div style="font-size:7px;color:#333;text-align:center;letter-spacing:1px;">нет<br>фото</div>';
+    html+='<div style="background:#111;border:1px solid #2b0d1a;border-radius:5px;padding:16px;margin-bottom:12px;display:flex;gap:14px;align-items:flex-start;">'+
+      '<div style="width:70px;height:88px;flex-shrink:0;background:#0d0d0d;border:1px solid #2b0d1a;border-radius:3px;overflow:hidden;display:flex;align-items:center;justify-content:center;">'+photoHtml+'</div>'+
+      '<div style="flex:1">'+
+        '<div style="font-size:15px;margin-bottom:4px;">'+e.name+'</div>'+
+        '<div style="font-size:8px;letter-spacing:2px;color:#ff44aa;margin-bottom:8px;">⚠ В РОЗЫСКЕ</div>'+
+        '<div style="font-size:10px;color:#555;margin-bottom:4px;">'+e.rank+' · '+e.addr+'</div>'+
+        '<div style="font-size:10px;color:#444;">УД: '+e.udNum+'</div>'+
+        (e.wantReason?'<div style="font-size:11px;color:#ff4444;margin-top:8px;padding:6px 8px;background:#1a0005;border-radius:2px;border-left:2px solid #ff44aa;">'+e.wantReason+'</div>':'')+
+      '</div>'+
+    '</div>';
+  });
+  el.innerHTML=html;
+}
+
+// ========== CITIZEN ==========
+async function citizenLogin(){
+  var series=document.getElementById('c-series').value.trim();
+  var pass=document.getElementById('c-pass').value.trim();
+  var err=document.getElementById('c-err');
+  err.textContent='';
+  if(!series||!pass){err.textContent='Введите серию и пароль';return;}
+  var found=null;
+  for(var i=0;i<DB.length;i++){
+    if(DB[i].series.toLowerCase()===series.toLowerCase()){found=DB[i];break;}
+  }
+  if(!found){err.textContent='Удостоверение не найдено';return;}
+  // Поддержка и хешированных и нехешированных паролей
+  var passHash = await sha256(pass);
+  if(found.password!==passHash && found.password!==pass){err.textContent='Неверный пароль';return;}
+  renderProfile(found);
+  show('screen-citizen-profile');
+  // Предупреждение если срок скоро истекает
+  if(found.val&&!found.frozen&&!found.wanted){
+    var dl=daysUntil(found.val);
+    if(dl!==null&&dl>=0&&dl<=7){
+      setTimeout(function(){
+        var warn=document.createElement('div');
+        warn.style.cssText='position:fixed;top:70px;left:50%;transform:translateX(-50%);background:#2b1f0d;border:1px solid #ffaa44;border-radius:4px;padding:10px 20px;font-size:11px;color:#ffaa44;letter-spacing:1px;z-index:500;font-family:Share Tech Mono,monospace;';
+        warn.textContent='⚠ Срок удостоверения истекает через '+dl+' дн.';
+        document.body.appendChild(warn);
+        setTimeout(function(){warn.remove();},5000);
+      },600);
+    }
+  }
+  try{
+    var ctx=new(window.AudioContext||window.webkitAudioContext)();
+    var osc=ctx.createOscillator();var gain=ctx.createGain();
+    osc.connect(gain);gain.connect(ctx.destination);
+    osc.frequency.value=880;osc.type='sine';
+    gain.gain.setValueAtTime(0.3,ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+0.3);
+    osc.start(ctx.currentTime);osc.stop(ctx.currentTime+0.3);
+  }catch(e){}
+  setTimeout(function(){
+    // Копировать данные
+    var btn=document.getElementById('btn-copy-all');
+    if(btn) btn.addEventListener('click',function(){
+      var valD=found.val?'до '+found.val:'Бессрочно';
+      var st=getStatus(found);
+      var text='УДОСТОВЕРЕНИЕ · ЧОМСК 207\n'+
+        '━━━━━━━━━━━━━━━━━━━━━━━━\n'+
+        'Имя:      '+found.name+'\n'+
+        'Ранг:     '+found.rank+'\n'+
+        'Статус:   '+st.label+'\n'+
+        'Номер УД: '+found.udNum+'\n'+
+        'Серия:    '+found.series+'\n'+
+        'Адрес:    '+found.addr+'\n'+
+        'Выдано:   '+found.date+'\n'+
+        'Срок:     '+valD+'\n'+
+        '━━━━━━━━━━━━━━━━━━━━━━━━\n'+
+        'MRZ:\n'+found.mrz;
+      var ta=document.createElement('textarea');
+      ta.value=text;ta.style.cssText='position:fixed;opacity:0;top:0;left:0;width:1px;height:1px';
+      document.body.appendChild(ta);ta.focus();ta.select();
+      try{document.execCommand('copy');}catch(e){}
+      document.body.removeChild(ta);
+      var orig=btn.textContent;
+      btn.textContent='✓ Скопировано';btn.style.color='#4aff4a';btn.style.borderColor='#4aff4a';
+      setTimeout(function(){btn.textContent=orig;btn.style.color='';btn.style.borderColor='';},2000);
+    });
+
+    // Заявка на ранг
+    var rankBtn=document.getElementById('btn-rank-request');
+    if(rankBtn) rankBtn.addEventListener('click',function(){
+      document.getElementById('rank-req-text').value='';
+      document.getElementById('rank-req-err').textContent='';
+      document.getElementById('rank-req-select').value='Р-1';
+      document.getElementById('rank-overlay').style.display='flex';
+    });
+    document.getElementById('rank-req-ok').onclick=async function(){
+      var rankWanted=document.getElementById('rank-req-select').value;
+      var reason=document.getElementById('rank-req-text').value.trim();
+      var err=document.getElementById('rank-req-err');
+      if(!reason){err.textContent='Напишите обоснование';err.style.color='#ff4444';return;}
+      err.textContent='Отправка...';err.style.color='#4a9fff';
+      await tgSend('📋 <b>ЗАЯВКА НА ПОВЫШЕНИЕ РАНГА</b>\n\nГражданин: <b>'+found.name+'</b>\nНомер УД: '+found.udNum+'\nТекущий ранг: <b>'+found.rank+'</b>\nЖелаемый ранг: <b>'+rankWanted+'</b>\nОбоснование: '+reason);
+      err.textContent='✓ Заявка отправлена';err.style.color='#4aff4a';
+      setTimeout(function(){document.getElementById('rank-overlay').style.display='none';},1500);
+    };
+
+    // Сообщить об ошибке
+    var errBtn=document.getElementById('btn-report-error');
+    if(errBtn) errBtn.addEventListener('click',function(){
+      document.getElementById('error-req-text').value='';
+      document.getElementById('error-req-err').textContent='';
+      document.getElementById('error-overlay').style.display='flex';
+    });
+    document.getElementById('error-req-ok').onclick=async function(){
+      var errorText=document.getElementById('error-req-text').value.trim();
+      var err=document.getElementById('error-req-err');
+      if(!errorText){err.textContent='Опишите ошибку';err.style.color='#ff4444';return;}
+      err.textContent='Отправка...';err.style.color='#4a9fff';
+      await tgSend('⚠️ <b>ОШИБКА В ДАННЫХ</b>\n\nГражданин: <b>'+found.name+'</b>\nНомер УД: '+found.udNum+'\nОшибка: '+errorText);
+      err.textContent='✓ Сообщение отправлено';err.style.color='#4aff4a';
+      setTimeout(function(){document.getElementById('error-overlay').style.display='none';},1500);
+    };
+
+    // Продление срока
+    var extBtn=document.getElementById('btn-extend-request');
+    if(extBtn) extBtn.addEventListener('click',function(){
+      document.getElementById('extend-req-text').value='';
+      document.getElementById('extend-req-err').textContent='';
+      document.getElementById('extend-overlay').style.display='flex';
+    });
+    document.getElementById('extend-req-ok').onclick=async function(){
+      var reason=document.getElementById('extend-req-text').value.trim();
+      var err=document.getElementById('extend-req-err');
+      if(!reason){err.textContent='Напишите причину';err.style.color='#ff4444';return;}
+      err.textContent='Отправка...';err.style.color='#4a9fff';
+      await tgSend('⟳ <b>ЗАЯВКА НА ПРОДЛЕНИЕ СРОКА</b>\n\nГражданин: <b>'+found.name+'</b>\nНомер УД: '+found.udNum+'\nТекущий срок: '+(found.val?'до '+found.val:'Бессрочно')+'\nПричина: '+reason);
+      err.textContent='✓ Заявка отправлена';err.style.color='#4aff4a';
+      setTimeout(function(){document.getElementById('extend-overlay').style.display='none';},1500);
+    };
+    // Закрыть сообщение от администрации
+    document.querySelectorAll('[data-msgidx]').forEach(function(closeBtn){
+      closeBtn.addEventListener('click',async function(){
+        var idx=parseInt(this.getAttribute('data-msgidx'));
+        if(!found.messages)return;
+        found.messages.splice(idx,1);
+        await dbSaveOne(found);
+        renderProfile(found);
+        setTimeout(function(){
+          document.querySelectorAll('[data-msgidx]').forEach(function(b){
+            b.addEventListener('click',async function(){
+              var i=parseInt(this.getAttribute('data-msgidx'));
+              if(!found.messages)return;
+              found.messages.splice(i,1);
+              await dbSaveOne(found);
+              renderProfile(found);
+            });
+          });
+        },150);
+      });
+    });
+
+    var dlBtn=document.getElementById('btn-download-card');
+    if(dlBtn) dlBtn.addEventListener('click',function(){
+      var card=document.querySelector('.id-card');
+      if(!card){alert('Карточка не найдена');return;}
+      var btn=this;
+      btn.textContent='Подготовка...';
+      // Создаём canvas через html2canvas если есть, иначе просто текст
+      var text='УДОСТОВЕРЕНИЕ ГРАЖДАНИНА\nЧОМСК · 207 РЕГИОН\n\nИМЯ: '+found.name+'\nРАНГ: '+found.rank+'\nНОМЕР УД: '+found.udNum+'\nСЕРИЯ: '+found.series+'\nАДРЕС: '+found.addr+'\nВЫДАНО: '+found.date+'\nСРОК: '+(found.val?'до '+found.val:'Бессрочно')+'\nСТАТУС: '+getStatus(found).label+'\n\nMRZ:\n'+found.mrz;
+      var blob=new Blob([text],{type:'text/plain;charset=utf-8'});
+      var a=document.createElement('a');
+      a.href=URL.createObjectURL(blob);
+      a.download='УД-'+found.udNum+'.txt';
+      a.click();
+      btn.textContent='✓ Скачано';
+      setTimeout(function(){btn.textContent='↓ Скачать удостоверение';},2000);
+    });
+  },100);
+}
+
+function renderProfile(e){
+  var st=getStatus(e);
+  var valD=e.val?'до '+e.val:'Бессрочно';
+  var photoHtml=e.photo?'<img src="'+e.photo+'">':'<div class="id-photo-ph">нет<br>фото</div>';
+
+  // Счётчик дней
+  var daysHtml='';
+  if(e.val&&!e.frozen&&!e.wanted){
+    var days=daysUntil(e.val);
+    if(days!==null&&days>0) daysHtml='<div style="font-size:9px;letter-spacing:1px;color:'+(days<=7?'#ffaa44':'#555')+';margin-top:4px;">'+(days<=7?'⚠ ':'')+'Осталось: '+days+' дн.</div>';
+    else if(days!==null&&days<=0) daysHtml='<div style="font-size:9px;letter-spacing:1px;color:#ff4444;margin-top:4px;">Срок истёк</div>';
+  }
+
+  var statusBgMap={
+    'st-ok':'background:#0d2b0d;border:1px solid #1a4a1a;',
+    'st-exp':'background:#2b0d0d;border:1px solid #4a1a1a;',
+    'st-frz':'background:#0d1a2b;border:1px solid #1a2a4a;',
+    'st-want':'background:#2b0d1a;border:1px solid #4a1a2a;',
+    'st-perm':'background:#1a1a0d;border:1px solid #2a2a1a;',
+    'st-soon':'background:#2b1f0d;border:1px solid #4a3a1a;'
+  };
+  var statusLabelColorMap={
+    'st-ok':'color:#4aff4a;','st-exp':'color:#ff4444;','st-frz':'color:#4a9fff;',
+    'st-want':'color:#ff44aa;','st-perm':'color:#aaaa44;','st-soon':'color:#ffaa44;'
+  };
+
+  var histHtml='';
+  if(e.history&&e.history.length){
+    var hh=e.history.slice().reverse().slice(0,5);
+    histHtml='<div class="info-block"><div class="info-block-title">История</div>'+
+      hh.map(function(h){return'<div class="hist-c-item"><span style="color:#2a2a2a;white-space:nowrap">'+h.ts+'</span><span style="color:#555">'+h.action+'</span></div>';}).join('')+'</div>';
+  }
+
+  document.getElementById('profile-content').innerHTML=
+    '<div class="id-card">'+
+      '<div class="id-top">'+
+        '<div class="id-photo">'+photoHtml+'</div>'+
+        '<div style="flex:1">'+
+          '<div class="id-name">'+e.name+'</div>'+
+          '<div class="id-rank-badge">'+e.rank+'</div>'+
+          '<div class="id-grid">'+
+            '<div class="id-field"><div class="id-label">Номер УД</div><div class="id-value">'+e.udNum+'</div></div>'+
+            '<div class="id-field"><div class="id-label">Серия</div><div class="id-value">'+e.series+'</div></div>'+
+            '<div class="id-field"><div class="id-label">Дата выдачи</div><div class="id-value">'+e.date+'</div></div>'+
+            '<div class="id-field"><div class="id-label">Срок действия</div><div class="id-value">'+valD+daysHtml+'</div></div>'+
+            '<div class="id-field" style="grid-column:1/-1"><div class="id-label">Место жительства</div><div class="id-value">'+e.addr+'</div></div>'+
+          '</div>'+
+          (e.tags?'<div style="margin-top:10px">'+tagHtml(e.tags)+'</div>':'')+
+        '</div>'+
+      '</div>'+
+      '<div style="margin-top:16px;padding-top:16px;border-top:1px solid #1e1e1e;display:flex;align-items:center;justify-content:space-between;">'+
+        '<div style="font-size:8px;letter-spacing:2px;color:#333;text-transform:uppercase;">QR-код удостоверения</div>'+
+        '<div id="citizen-qr" style="width:80px;height:80px;background:#111;border-radius:3px;"></div>'+
+      '</div>'+
+    '</div>'+
+    (e.wanted
+      ?'<div id="wanted-banner" style="background:#1a0008;border:1px solid #ff44aa;border-radius:4px;padding:12px 16px;font-size:12px;color:#ff44aa;letter-spacing:2px;text-align:center;">⚠ ВЫ НАХОДИТЕСЬ В РОЗЫСКЕ ⚠</div>'
+      :'<div class="status-row" style="'+statusBgMap[st.cls]+'"><div class="status-dot" style="background:'+st.dotColor+'"></div><div class="status-label" style="'+statusLabelColorMap[st.cls]+'">'+st.label+'</div></div>'
+    )+
+    '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">'+
+      '<button id="btn-copy-all" class="btn" style="font-size:9px;letter-spacing:1.5px;">Копировать данные</button>'+
+      '<button id="btn-download-card" class="btn" style="font-size:9px;letter-spacing:1.5px;">↓ Скачать удостоверение</button>'+
+      '<button id="btn-rank-request" class="btn" style="font-size:9px;letter-spacing:1.5px;border-color:#1a2a3a;color:#4a9fff;">↑ Заявка на ранг</button>'+
+      '<button id="btn-extend-request" class="btn" style="font-size:9px;letter-spacing:1.5px;border-color:#1a2a1a;color:#4aff4a;">⟳ Продление срока</button>'+
+      '<button id="btn-report-error" class="btn" style="font-size:9px;letter-spacing:1.5px;border-color:#2a1a0d;color:#ffaa44;">⚠ Сообщить об ошибке</button>'+
+    '</div>'+
+    (e.notes?'<div class="info-block"><div class="info-block-title">Примечания</div><div style="font-size:12px;color:#888;line-height:1.6">'+e.notes+'</div></div>':'')+
+    (e.fines&&e.fines.length?'<div class="info-block" style="border-color:#3a1a00;"><div class="info-block-title" style="color:#ff6600;">Штрафы ('+e.fines.length+')</div>'+e.fines.map(function(f){return'<div style="font-size:11px;color:#ffaa44;padding:4px 0;border-bottom:1px solid #1a1a1a;">'+f.text+'<span style="color:#555;font-size:9px;margin-left:8px;">'+f.ts+'</span></div>';}).join('')+'</div>':'')+
+    (e.messages&&e.messages.length?'<div class="info-block" style="border-color:#1a2a3a;"><div class="info-block-title" style="color:#4a9fff;">Сообщения от администрации</div>'+e.messages.map(function(m,i){return'<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px;padding:8px 0;border-bottom:1px solid #1a1a1a;"><div><div style="font-size:11px;color:#bbb;line-height:1.5">'+m.text+'</div><div style="font-size:8px;color:#333;margin-top:3px;letter-spacing:1px;">'+m.ts+'</div></div><button class="btn" data-msgidx="'+i+'" style="font-size:8px;padding:3px 7px;flex-shrink:0;color:#444;">✕</button></div>';}).join('')+'</div>':'')+
+    (e.frozenReason?'<div class="info-block"><div style="font-size:12px;color:#4a9fff;line-height:1.6">'+e.frozenReason+'</div></div>':'')+
+    (e.wantReason?'<div class="info-block"><div style="font-size:12px;color:#ff44aa;line-height:1.6">'+e.wantReason+'</div></div>':'')+
+    '<div class="info-block"><div class="info-block-title">MRZ — машиночитаемая зона</div><div class="mrz-text">'+e.mrz.replace(/</g,'&lt;')+'</div></div>'+
+    histHtml;
+
+  // QR код
+  function tryGenQR(attempt) {
+    var el = document.getElementById('citizen-qr');
+    if(!el) return;
+    if(typeof QRCode === 'undefined') {
+      if(attempt < 10) setTimeout(function(){tryGenQR(attempt+1);}, 300);
+      return;
+    }
+    try {
+      el.innerHTML = '';
+      new QRCode(el, {
+        text: e.udNum+' '+e.name+' '+e.rank,
+        width:80, height:80, colorDark:'#ffffff', colorLight:'#111111',
+        correctLevel: QRCode.CorrectLevel.M
+      });
+    } catch(err) {}
+  }
+  setTimeout(function(){tryGenQR(0);}, 300);
+}
+
+// ========== EVENT LISTENERS ==========
+window.addEventListener('DOMContentLoaded', async function(){
+  await dbLoad(); render();
+
+  // Восстановить экран после обновления
+  var savedScreen = '';
+  try{savedScreen=localStorage.getItem('chomsk_screen')||'';}catch(e){}
+  if(savedScreen==='screen-admin'){
+    show('screen-admin'); render();
+  } else if(savedScreen==='screen-citizen-login' || savedScreen==='screen-citizen-profile'){
+    show('screen-citizen-login');
+  } else {
+    show('screen-menu');
+  }
+
+  var t=new Date();
+  document.getElementById('f-date').value=('0'+t.getDate()).slice(-2)+'.'+('0'+(t.getMonth()+1)).slice(-2)+'.'+t.getFullYear();
+  // Автозаполнение срока — +30 дней
+  var exp=new Date(t.getTime()+30*24*60*60*1000);
+  document.getElementById('f-val').value=('0'+exp.getDate()).slice(-2)+'.'+('0'+(exp.getMonth()+1)).slice(-2)+'.'+exp.getFullYear();
+
+  // Функции конвертации дат
+  function isoToDmy(iso){if(!iso)return'';var p=iso.split('-');return p[2]+'.'+p[1]+'.'+p[0];}
+  function dmyToIso(dmy){if(!dmy)return'';var p=dmy.split('.');if(p.length<3)return'';return p[2]+'-'+p[1]+'-'+p[0];}
+
+  // Синхронизация календариков — форма создания
+  document.getElementById('f-date-pick').addEventListener('change',function(){
+    if(this.value) document.getElementById('f-date').value=isoToDmy(this.value);
+  });
+  document.getElementById('f-date').addEventListener('change',function(){
+    var iso=dmyToIso(this.value);
+    if(iso) document.getElementById('f-date-pick').value=iso;
+  });
+  document.getElementById('f-val-pick').addEventListener('change',function(){
+    if(this.value) document.getElementById('f-val').value=isoToDmy(this.value);
+  });
+  document.getElementById('f-val').addEventListener('change',function(){
+    var iso=dmyToIso(this.value);
+    if(iso) document.getElementById('f-val-pick').value=iso;
+  });
+
+  // Синхронизация — модалка редактирования
+  document.getElementById('e-date-pick').addEventListener('change',function(){
+    if(this.value) document.getElementById('e-date').value=isoToDmy(this.value);
+  });
+  document.getElementById('e-date').addEventListener('change',function(){
+    var iso=dmyToIso(this.value);
+    if(iso) document.getElementById('e-date-pick').value=iso;
+  });
+  document.getElementById('e-val-pick').addEventListener('change',function(){
+    if(this.value) document.getElementById('e-val').value=isoToDmy(this.value);
+  });
+  document.getElementById('e-val').addEventListener('change',function(){
+    var iso=dmyToIso(this.value);
+    if(iso) document.getElementById('e-val-pick').value=iso;
+  });
+
+  // MENU
+  document.getElementById('goto-admin').addEventListener('click',function(){show('screen-admin-login');document.getElementById('a-pass').value='';document.getElementById('a-err').textContent='';});
+  document.getElementById('goto-citizen').addEventListener('click',function(){show('screen-citizen-login');document.getElementById('c-series').value='';document.getElementById('c-pass').value='';document.getElementById('c-err').textContent='';});
+  document.getElementById('goto-wanted').addEventListener('click',function(){renderWanted();show('screen-wanted');});
+
+  // ADMIN LOGIN
+  document.getElementById('btn-admin-login').addEventListener('click',function(){
+    var pass=document.getElementById('a-pass').value;
+    var err=document.getElementById('a-err');
+    if(!ADMIN_PASSWORD){err.textContent='Ошибка загрузки. Обновите страницу.';return;}
+    if(pass===ADMIN_PASSWORD){show('screen-admin');render();}
+    else{err.textContent='Неверный пароль';}
+  });
+  document.getElementById('a-pass').addEventListener('keydown',function(ev){if(ev.key==='Enter')document.getElementById('btn-admin-login').click();});
+  document.getElementById('back-from-admin-login').addEventListener('click',function(){show('screen-menu');});
+  document.getElementById('admin-logout').addEventListener('click',function(){try{localStorage.removeItem('chomsk_screen');}catch(e){}show('screen-menu');});
+
+  document.getElementById('wanted-back').addEventListener('click',function(){show('screen-menu');});
+
+  // CITIZEN LOGIN
+  document.getElementById('btn-citizen-login').addEventListener('click',citizenLogin);
+  document.getElementById('c-pass').addEventListener('keydown',function(ev){if(ev.key==='Enter')citizenLogin();});
+  document.getElementById('c-series').addEventListener('keydown',function(ev){if(ev.key==='Enter')citizenLogin();});
+  document.getElementById('back-from-citizen-login').addEventListener('click',function(){try{localStorage.removeItem('chomsk_screen');}catch(e){}show('screen-menu');});
+  document.getElementById('citizen-logout').addEventListener('click',function(){try{localStorage.removeItem('chomsk_screen');}catch(e){}show('screen-menu');});
+
+  // ADMIN PANEL
+  document.getElementById('rb-m').addEventListener('click',function(){G='M';this.classList.add('on');document.getElementById('rb-f').classList.remove('on');});
+  document.getElementById('rb-f').addEventListener('click',function(){G='F';this.classList.add('on');document.getElementById('rb-m').classList.remove('on');});
+  document.getElementById('f-photo').addEventListener('change',function(){
+    var file=this.files[0];if(!file)return;
+    if(file.size>1024*1024){
+      alert('Фото слишком большое — максимум 1 МБ');
+      this.value='';return;
+    }
+    var reader=new FileReader();reader.onload=function(ev){PHOTO_DATA=ev.target.result;document.getElementById('photo-preview').innerHTML='<img src="'+PHOTO_DATA+'" style="width:100%;height:100%;object-fit:cover">';};reader.readAsDataURL(file);
+  });
+  document.getElementById('btn-create').addEventListener('click',createEntry);
+  document.getElementById('btn-gen-pass').addEventListener('click',function(){
+    var chars='abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ0123456789';
+    var pass='';for(var i=0;i<8;i++)pass+=chars[Math.floor(Math.random()*chars.length)];
+    document.getElementById('f-pass').value=pass;
+  });
+  ['t-search','t-rank','t-status'].forEach(function(id){document.getElementById(id).addEventListener('input',render);document.getElementById(id).addEventListener('change',render);});
+  document.getElementById('sort-date').addEventListener('click',function(){SORT='date';this.classList.add('on');document.getElementById('sort-name').classList.remove('on');document.getElementById('sort-exp').classList.remove('on');render();});
+  document.getElementById('sort-name').addEventListener('click',function(){SORT='name';this.classList.add('on');document.getElementById('sort-date').classList.remove('on');document.getElementById('sort-exp').classList.remove('on');render();});
+  document.getElementById('sort-exp').addEventListener('click',function(){SORT='exp';this.classList.add('on');document.getElementById('sort-date').classList.remove('on');document.getElementById('sort-name').classList.remove('on');render();});
+
+  // CARD ACTIONS
+  document.addEventListener('click',function(ev){
+    var btn=ev.target.closest('[data-action]');if(!btn)return;
+    var action=btn.getAttribute('data-action');
+    var id=btn.getAttribute('data-id');
+    var e=findById(id);
+    if(action==='del'){deleteEntry(id);return;}
+    if(action==='msg'){
+      MSG_ID=String(id);
+      document.getElementById('msg-text').value='';
+      document.getElementById('msg-err').textContent='';
+      document.getElementById('msg-overlay').style.display='flex';
+      return;
+    }
+    if(action==='fine'){
+      MSG_ID=String(id);
+      document.getElementById('fine-text').value='';
+      document.getElementById('fine-err').textContent='';
+      document.getElementById('fine-overlay').style.display='flex';
+      return;
+    }
+    if(action==='extratag'){
+      MSG_ID=String(id);
+      document.getElementById('extratag-overlay').style.display='flex';
+      return;
+    }
+    if(action==='extend30'){
+      var e30=findById(id);if(!e30)return;
+      var cur=e30.val?parseDate(e30.val):new Date();
+      if(!cur||cur<new Date())cur=new Date();
+      var newExp=new Date(cur.getTime()+30*24*60*60*1000);
+      e30.val=('0'+newExp.getDate()).slice(-2)+'.'+('0'+(newExp.getMonth()+1)).slice(-2)+'.'+newExp.getFullYear();
+      e30.history.push({ts:nowStr(),action:'Срок продлён на 30 дней до '+e30.val});
+      dbSaveOne(e30);render();
+      return;
+    }
+    if(action==='rm-fine'){
+      var fidx=parseInt(btn.getAttribute('data-fidx'));
+      var ef=findById(id);
+      if(!ef||!ef.fines)return;
+      ef.fines.splice(fidx,1);
+      ef.history.push({ts:nowStr(),action:'Штраф снят'});
+      dbSaveOne(ef);render();
+      return;
+    }
+    var msgIdx=btn.getAttribute('data-msgidx');
+    if(msgIdx!==null){return;}
+    if(action==='edit'){openEdit(id);return;}
+    if(action==='frz'){openFrz(id);return;}
+    if(action==='unfrz'){doUnfreeze(id);return;}
+    if(action==='want'){openWant(id);return;}
+    if(action==='unwant'){doUnwant(id);return;}
+    if(action==='print'){openPrint(id);return;}
+    if(!e)return;
+    var valD=e.val?'до '+e.val:'Бессрочно';
+    var texts={'cp-series':e.series,'cp-all':'ИМЯ: '+e.name+'\nРАНГ: '+e.rank+'\nНОМЕР: '+e.udNum+'\nСЕРИЯ: '+e.series+'\nАДРЕС: '+e.addr+'\nДАТА: '+e.date+'\nСРОК: '+valD+'\nПАРОЛЬ: '+(e.passwordPlain||'не задан'),'cp-pass':e.passwordPlain||''};
+    if(texts[action])cpText(btn,texts[action]);
+  });
+
+  // MODALS
+  document.getElementById('edit-cancel').addEventListener('click',closeEdit);
+  document.getElementById('rank-req-cancel').addEventListener('click',function(){document.getElementById('rank-overlay').style.display='none';});
+  document.getElementById('rank-overlay').addEventListener('click',function(ev){if(ev.target===this)this.style.display='none';});
+  document.getElementById('error-req-cancel').addEventListener('click',function(){document.getElementById('error-overlay').style.display='none';});
+  document.getElementById('error-overlay').addEventListener('click',function(ev){if(ev.target===this)this.style.display='none';});
+  document.getElementById('extend-req-cancel').addEventListener('click',function(){document.getElementById('extend-overlay').style.display='none';});
+  document.getElementById('extend-overlay').addEventListener('click',function(ev){if(ev.target===this)this.style.display='none';});
+
+  // ЛИЧНОЕ СООБЩЕНИЕ
+  document.getElementById('msg-cancel').addEventListener('click',function(){document.getElementById('msg-overlay').style.display='none';});
+  document.getElementById('msg-overlay').addEventListener('click',function(ev){if(ev.target===this)this.style.display='none';});
+
+  // ШТРАФ
+  document.getElementById('fine-cancel').addEventListener('click',function(){document.getElementById('fine-overlay').style.display='none';});
+  document.getElementById('fine-overlay').addEventListener('click',function(ev){if(ev.target===this)this.style.display='none';});
+  document.getElementById('fine-ok').addEventListener('click',async function(){
+    var text=document.getElementById('fine-text').value.trim();
+    var err=document.getElementById('fine-err');
+    if(!text){err.textContent='Опишите штраф';err.style.color='#ff4444';return;}
+    var e=findById(MSG_ID);if(!e)return;
+    if(!e.fines)e.fines=[];
+    e.fines.push({text:text,ts:nowStr()});
+    e.history.push({ts:nowStr(),action:'Штраф: '+text});
+    err.textContent='Сохранение...';err.style.color='#4a9fff';
+    await dbSaveOne(e);render();
+    document.getElementById('fine-overlay').style.display='none';
+  });
+
+  // МЕТКА
+  document.getElementById('extratag-cancel').addEventListener('click',function(){document.getElementById('extratag-overlay').style.display='none';});
+  document.getElementById('extratag-overlay').addEventListener('click',function(ev){if(ev.target===this)this.style.display='none';});
+  document.getElementById('extratag-ok').addEventListener('click',async function(){
+    var tag=document.getElementById('extratag-select').value;
+    var e=findById(MSG_ID);if(!e)return;
+    if(!e.extraTags)e.extraTags=[];
+    var idx=e.extraTags.indexOf(tag);
+    if(idx>=0){e.extraTags.splice(idx,1);e.history.push({ts:nowStr(),action:'Метка снята: '+tag});}
+    else{e.extraTags.push(tag);e.history.push({ts:nowStr(),action:'Метка добавлена: '+tag});}
+    await dbSaveOne(e);render();
+    document.getElementById('extratag-overlay').style.display='none';
+  });
+  document.getElementById('msg-ok').addEventListener('click',async function(){
+    var text=document.getElementById('msg-text').value.trim();
+    var err=document.getElementById('msg-err');
+    if(!text){err.textContent='Напишите сообщение';err.style.color='#ff4444';return;}
+    var e=findById(MSG_ID);if(!e){document.getElementById('msg-overlay').style.display='none';return;}
+    if(!e.messages)e.messages=[];
+    e.messages.unshift({text:text,ts:nowStr()});
+    err.textContent='Отправка...';err.style.color='#4a9fff';
+    await dbSaveOne(e);
+    render();
+    err.textContent='✓ Отправлено';err.style.color='#4aff4a';
+    setTimeout(function(){document.getElementById('msg-overlay').style.display='none';},1000);
+  });
+  document.getElementById('edit-save').addEventListener('click',doEdit);
+  document.getElementById('btn-gen-pass-e').addEventListener('click',function(){
+    var chars='abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ0123456789';
+    var pass='';for(var i=0;i<8;i++)pass+=chars[Math.floor(Math.random()*chars.length)];
+    document.getElementById('e-pass').value=pass;
+  });
+  document.getElementById('frz-cancel').addEventListener('click',closeFrz);
+  document.getElementById('frz-ok').addEventListener('click',doFreeze);
+  document.getElementById('want-cancel').addEventListener('click',closeWant);
+  document.getElementById('want-ok').addEventListener('click',doWant);
+  document.getElementById('print-cancel').addEventListener('click',closePrint);
+  document.getElementById('print-ok').addEventListener('click',function(){window.print();});
+  ['edit-overlay','frz-overlay','want-overlay','print-overlay'].forEach(function(id){
+    document.getElementById(id).addEventListener('click',function(ev){if(ev.target===this){closeEdit();closeFrz();closeWant();closePrint();}});
+  });
+
+  // EXPORT/IMPORT
+  document.getElementById('btn-export').addEventListener('click',function(){
+    var blob=new Blob([JSON.stringify(DB,null,2)],{type:'application/json'});
+    var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='chomsk_'+nowStr().replace(/[: .]/g,'-')+'.json';a.click();
+  });
+  document.getElementById('btn-import').addEventListener('change',function(){
+    var file=this.files[0];if(!file)return;
+    var reader=new FileReader();
+    reader.onload=async function(ev){
+      try{
+        var imp=JSON.parse(ev.target.result);if(!Array.isArray(imp)){alert('Неверный формат');return;}
+        imp.forEach(function(e){e.id=String(e.id);if(!e.history)e.history=[];if(!e.frozenReason)e.frozenReason='';if(!e.wantReason)e.wantReason='';if(!e.tags)e.tags='';if(!e.uvnch)e.uvnch='';if(!e.photo)e.photo='';if(!e.password)e.password='';});
+        DB=imp;C=DB.length+1;await dbSave();render();alert('Импортировано: '+DB.length);
+      }catch(err){alert('Ошибка: '+err.message);}
+    };reader.readAsText(file);
+  });
+});
+</script>
+
+
+</body></html>
