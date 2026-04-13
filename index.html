@@ -2,20 +2,16 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIiIGhlaWdodD0iMzIiIHZpZXdCb3g9Ii0zMDAgLTMwMCAyMTAwIDIxMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxwYXRoIGQ9Ik0zNzUgMzc1SDc1MFYxNTAwSDM3NVYzNzVaIiBmaWxsPSJ3aGl0ZSIvPgo8cGF0aCBkPSJNMTEyNSAzNzVIMTUwMFYxNTAwSDExMjVWMzc1WiIgZmlsbD0id2hpdGUiLz4KPHBhdGggZD0iTTAgMEgzNzVWMzc1SDBWMFoiIGZpbGw9IndoaXRlIi8+CjxwYXRoIGQ9Ik03NTAgMEgxMTI1VjM3NUg3NTBWMFoiIGZpbGw9IndoaXRlIi8+Cjwvc3ZnPg==">
+<link rel="icon" sizes="32x32" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIiIGhlaWdodD0iMzIiIHZpZXdCb3g9Ii0zMDAgLTMwMCAyMTAwIDIxMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxwYXRoIGQ9Ik0zNzUgMzc1SDc1MFYxNTAwSDM3NVYzNzVaIiBmaWxsPSJ3aGl0ZSIvPgo8cGF0aCBkPSJNMTEyNSAzNzVIMTUwMFYxNTAwSDExMjVWMzc1WiIgZmlsbD0id2hpdGUiLz4KPHBhdGggZD0iTTAgMEgzNzVWMzc1SDBWMFoiIGZpbGw9IndoaXRlIi8+CjxwYXRoIGQ9Ik03NTAgMEgxMTI1VjM3NUg3NTBWMFoiIGZpbGw9IndoaXRlIi8+Cjwvc3ZnPg==">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <title>Чомск Портал</title>
-<!-- Yandex.Metrika counter -->
-<script type="text/javascript">
-    (function(m,e,t,r,i,k,a){
-        m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
-        m[i].l=1*new Date();
-        for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
-        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
-    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=108527057', 'ym');
-    ym(108527057, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
-</script>
-<noscript><div><img src="https://mc.yandex.ru/watch/108527057" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
-<!-- /Yandex.Metrika counter -->
+<meta name="description" content="Официальный портал города Чомск — проверка удостоверений, личный кабинет гражданина, администрация.">
+<meta name="keywords" content="Чомск, портал, удостоверение, гражданин, администрация">
+<meta name="robots" content="index, follow">
+<meta property="og:title" content="Чомск Портал">
+<meta property="og:description" content="Официальный портал города Чомск">
+<meta property="og:type" content="website">
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <style>
@@ -24,7 +20,7 @@
 :root{
   --bg:#0a0a0f;--bg2:#1c1c1e;--bg3:#2c2c2e;
   --border:#38383a;--border2:#48484a;
-  --text:#f5f5f7;--text2:#d1d1d6;--text3:#8e8e93;--text4:#48484a;
+  --text:#f5f5f7;--text2:#d1d1d6;--text3:#aeaeb2;--text4:#6e6e73;
   --accent:#0a84ff;--accent2:#0077ed;
   --red:#ff453a;--green:#30d158;--orange:#ff9f0a;--pink:#ff375f;--blue:#0a84ff;--purple:#bf5af2;
   --shadow:0 2px 20px rgba(0,0,0,0.4);--shadow2:0 4px 40px rgba(0,0,0,0.6);
@@ -39,8 +35,7 @@
 .id-card{animation:slideUp .4s cubic-bezier(.22,.68,0,1.2);}
 
 body{background:var(--bg);min-height:100vh;font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;color:var(--text);-webkit-font-smoothing:antialiased;}
-
-.screen{display:none;}
+.screen{position:relative;z-index:1;display:none;}
 .screen.active{display:flex;flex-direction:column;min-height:100vh;}
 
 /* MENU */
@@ -148,8 +143,8 @@ textarea{resize:vertical;min-height:80px;}
 .mrz-t{font-size:10px;font-weight:500;color:var(--text4);text-transform:uppercase;letter-spacing:.4px;margin-bottom:6px;}
 .mrz-v{font-size:10px;color:var(--text3);letter-spacing:.5px;line-height:1.8;white-space:pre;word-break:break-all;font-family:'Courier New',monospace;}
 .hist{display:flex;flex-direction:column;gap:4px;}
-.hist-item{font-size:11px;color:var(--text4);display:flex;gap:8px;}
-.hist-ts{white-space:nowrap;font-size:11px;}
+.hist-item{font-size:11px;color:var(--text2);display:flex;gap:8px;}
+.hist-ts{white-space:nowrap;font-size:11px;color:var(--text4);}
 .brow{display:flex;gap:6px;flex-wrap:wrap;align-items:center;}
 .btn{background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius3);color:var(--text3);font-family:inherit;font-size:12px;font-weight:500;padding:6px 12px;cursor:pointer;transition:all .15s;}
 .btn:hover{background:var(--border);color:var(--text);}
@@ -1165,6 +1160,26 @@ async function citizenLogin(){
   if(found.password!==passHash && found.password!==pass){err.textContent='Неверный пароль';return;}
   // Сохраняем данные для автовхода
   try{localStorage.setItem('chomsk_citizen_series',series);localStorage.setItem('chomsk_citizen_pass',pass);}catch(e){}
+  // Экран приветствия
+  var greetHour = new Date().getHours();
+  var greetWord = greetHour>=5&&greetHour<12?'Доброе утро':greetHour>=12&&greetHour<18?'Добрый день':greetHour>=18&&greetHour<23?'Добрый вечер':'Доброй ночи';
+  var greetEl = document.createElement('div');
+  greetEl.id = 'greet-screen';
+  greetEl.style.cssText = 'position:fixed;inset:0;background:var(--bg);z-index:9998;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;opacity:1;transition:opacity .6s ease;';
+  greetEl.innerHTML = '<div style="font-size:13px;font-weight:400;color:var(--text3);opacity:0;transition:opacity .5s ease .2s;" id="greet-word">'+greetWord+'</div>'+
+    '<div style="font-size:32px;font-weight:700;letter-spacing:-.5px;color:var(--text);opacity:0;transition:opacity .6s ease .4s;" id="greet-name">'+found.name.split(' ')[0]+'</div>'+
+    '<div style="font-size:13px;color:var(--text4);opacity:0;transition:opacity .5s ease .7s;" id="greet-rank">'+found.rank+'</div>';
+  document.body.appendChild(greetEl);
+  setTimeout(function(){
+    document.getElementById('greet-word').style.opacity='1';
+    document.getElementById('greet-name').style.opacity='1';
+    document.getElementById('greet-rank').style.opacity='1';
+  },50);
+  setTimeout(function(){
+    greetEl.style.opacity='0';
+    setTimeout(function(){greetEl.remove();},600);
+  },2000);
+
   renderProfile(found);
   show('screen-citizen-profile');
   // Предупреждение если срок скоро истекает
@@ -1182,12 +1197,31 @@ async function citizenLogin(){
   }
   try{
     var ctx=new(window.AudioContext||window.webkitAudioContext)();
-    var osc=ctx.createOscillator();var gain=ctx.createGain();
-    osc.connect(gain);gain.connect(ctx.destination);
-    osc.frequency.value=880;osc.type='sine';
-    gain.gain.setValueAtTime(0.3,ctx.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+0.3);
-    osc.start(ctx.currentTime);osc.stop(ctx.currentTime+0.3);
+    var now=ctx.currentTime;
+
+    // Apple-style chime — мягкий колокольчик
+    function note(freq, startTime, duration, vol){
+      var osc=ctx.createOscillator();
+      var gain=ctx.createGain();
+      var filter=ctx.createBiquadFilter();
+      filter.type='lowpass';filter.frequency.value=3000;
+      osc.connect(filter);filter.connect(gain);gain.connect(ctx.destination);
+      osc.type='sine';osc.frequency.value=freq;
+      gain.gain.setValueAtTime(0,startTime);
+      gain.gain.linearRampToValueAtTime(vol,startTime+0.01);
+      gain.gain.exponentialRampToValueAtTime(0.001,startTime+duration);
+      osc.start(startTime);osc.stop(startTime+duration);
+    }
+
+    // Три ноты как у Apple — до-ми-соль
+    note(523, now, 0.5, 0.08);       // C5
+    note(659, now+0.1, 0.45, 0.07);  // E5
+    note(784, now+0.2, 0.6, 0.09);   // G5
+  }catch(e){}
+
+  // Вибрация как у Apple Pay — короткий двойной импульс
+  try{
+    if(navigator.vibrate) navigator.vibrate([10, 50, 20]);
   }catch(e){}
   setTimeout(function(){
     bindCitizenButtons(found);
@@ -1346,7 +1380,7 @@ function renderProfile(e){
   if(e.history&&e.history.length){
     var hh=e.history.slice().reverse().slice(0,5);
     histHtml='<div class="info-block"><div class="info-block-title">История</div>'+
-      hh.map(function(h){return'<div class="hist-c-item"><span style="color:#2a2a2a;white-space:nowrap">'+h.ts+'</span><span style="color:#555">'+h.action+'</span></div>';}).join('')+'</div>';
+      hh.map(function(h){return'<div class="hist-c-item"><span style="color:var(--text4);white-space:nowrap">'+h.ts+'</span><span style="color:var(--text2)">'+h.action+'</span></div>';}).join('')+'</div>';
   }
 
   document.getElementById('profile-content').innerHTML=
