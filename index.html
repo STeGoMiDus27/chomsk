@@ -393,7 +393,26 @@ window.addEventListener('DOMContentLoaded', function(){
           <div class="rbtn" id="rb-f">Ж</div>
         </div>
       </div>
-      <div class="field"><label>Место жительства</label><input id="f-addr" placeholder="Район / адрес"></div>
+      <div class="field"><label>Место жительства</label>
+        <div style="display:flex;gap:6px;align-items:center;">
+          <select id="f-addr-street" style="flex:1;" onchange="updateAddr('f')">
+            <option value="">— Выбрать улицу —</option>
+            <option value="Без места">Без места</option>
+            <option value="Ул. Центральная">Ул. Центральная</option>
+            <option value="Ул. Непидорская">Ул. Непидорская</option>
+            <option value="Ул. Заводы">Ул. Заводы</option>
+            <option value="Ул. Озёрская">Ул. Озёрская</option>
+            <option value="Контейнеры">Контейнеры</option>
+            <option value="Ул. Чермета">Ул. Чермета</option>
+            <option value="Ул. Складская">Ул. Складская</option>
+            <option value="Ул. Старочомская">Ул. Старочомская</option>
+            <option value="__custom__">Другой адрес...</option>
+          </select>
+          <input id="f-addr-house" placeholder="д. №" style="width:80px;" oninput="updateAddr('f')" />
+        </div>
+        <input id="f-addr" placeholder="Адрес" style="display:none;">
+        <input id="f-addr-custom" placeholder="Введите адрес вручную" style="display:none;margin-top:6px;" oninput="this.previousElementSibling.previousElementSibling.previousElementSibling.value=this.value">
+      </div>
       <div class="field"><label>Дата выдачи</label><div style="display:flex;gap:6px;"><input id="f-date" style="flex:1" placeholder="ДД.ММ.ГГГГ"><input type="date" id="f-date-pick" style="width:40px;padding:8px 4px;cursor:pointer;" title="Выбрать дату"></div></div>
       <div class="field"><label>Срок действия</label><div style="display:flex;gap:6px;"><input id="f-val" placeholder="Пусто — бессрочно" style="flex:1"><input type="date" id="f-val-pick" style="width:40px;padding:8px 4px;cursor:pointer;" title="Выбрать дату"></div></div>
       <div class="field"><label>Метки</label>
@@ -485,7 +504,26 @@ window.addEventListener('DOMContentLoaded', function(){
         <option value="А-3">А-3 — Уполномоченный</option><option value="А-4">А-4 — Зам. главы</option>
       </select>
     </div>
-    <div class="field"><label>Место жительства</label><input id="e-addr"></div>
+    <div class="field"><label>Место жительства</label>
+        <div style="display:flex;gap:6px;align-items:center;">
+          <select id="e-addr-street" style="flex:1;" onchange="updateAddr('e')">
+            <option value="">— Выбрать улицу —</option>
+            <option value="Без места">Без места</option>
+            <option value="Ул. Центральная">Ул. Центральная</option>
+            <option value="Ул. Непидорская">Ул. Непидорская</option>
+            <option value="Ул. Заводы">Ул. Заводы</option>
+            <option value="Ул. Озёрская">Ул. Озёрская</option>
+            <option value="Контейнеры">Контейнеры</option>
+            <option value="Ул. Чермета">Ул. Чермета</option>
+            <option value="Ул. Складская">Ул. Складская</option>
+            <option value="Ул. Старочомская">Ул. Старочомская</option>
+            <option value="__custom__">Другой адрес...</option>
+          </select>
+          <input id="e-addr-house" placeholder="д. №" style="width:80px;" oninput="updateAddr('e')" />
+        </div>
+        <input id="e-addr" style="display:none;">
+        <input id="e-addr-custom" placeholder="Введите адрес вручную" style="display:none;margin-top:6px;">
+      </div>
     <div class="field"><label>Дата выдачи</label><div style="display:flex;gap:6px;"><input id="e-date" style="flex:1" placeholder="ДД.ММ.ГГГГ"><input type="date" id="e-date-pick" style="width:40px;padding:8px 4px;cursor:pointer;" title="Выбрать дату"></div></div>
     <div class="field"><label>Срок действия</label><div style="display:flex;gap:6px;"><input id="e-val" placeholder="Пусто — бессрочно" style="flex:1"><input type="date" id="e-val-pick" style="width:40px;padding:8px 4px;cursor:pointer;" title="Выбрать дату"></div></div>
     <div class="field"><label>Метки</label>
@@ -868,7 +906,43 @@ function tr(name){
   var res='';for(var i=0;i<name.length;i++){var c=name[i].toLowerCase();res+=(m[c]!==undefined?m[c]:name[i].toUpperCase());}return res;
 }
 function nowStr(){var n=new Date();return('0'+n.getDate()).slice(-2)+'.'+('0'+(n.getMonth()+1)).slice(-2)+'.'+n.getFullYear()+' '+('0'+n.getHours()).slice(-2)+':'+('0'+n.getMinutes()).slice(-2);}
-function parseDate(s){if(!s||!s.trim())return null;var p=s.trim().split('.');if(p.length<3)return null;return new Date(parseInt(p[2]),parseInt(p[1])-1,parseInt(p[0]),23,59,59);}
+function updateAddr(prefix){
+  var street=document.getElementById(prefix+'-addr-street').value;
+  var house=document.getElementById(prefix+'-addr-house').value.trim();
+  var custom=document.getElementById(prefix+'-addr-custom');
+  var addr=document.getElementById(prefix+'-addr');
+  if(street==='__custom__'){
+    custom.style.display='block';
+    addr.value=custom.value;
+  } else {
+    custom.style.display='none';
+    if(street==='Без места'||street==='Контейнеры'){
+      addr.value=street;
+    } else if(street&&house){
+      addr.value=street+', д. '+house;
+    } else if(street){
+      addr.value=street;
+    } else {
+      addr.value='';
+    }
+  }
+}
+
+function setAddrFields(prefix, addrVal){
+  if(!addrVal){return;}
+  var streets=['Без места','Ул. Центральная','Ул. Непидорская','Ул. Заводы','Ул. Озёрская','Контейнеры','Ул. Чермета','Ул. Складская','Ул. Старочомская'];
+  var matched=streets.find(function(s){return addrVal.indexOf(s)===0;});
+  if(matched){
+    document.getElementById(prefix+'-addr-street').value=matched;
+    var house=addrVal.replace(matched,'').replace(', д. ','').trim();
+    document.getElementById(prefix+'-addr-house').value=house;
+  } else {
+    document.getElementById(prefix+'-addr-street').value='__custom__';
+    document.getElementById(prefix+'-addr-custom').style.display='block';
+    document.getElementById(prefix+'-addr-custom').value=addrVal;
+  }
+  document.getElementById(prefix+'-addr').value=addrVal;
+}if(!s||!s.trim())return null;var p=s.trim().split('.');if(p.length<3)return null;return new Date(parseInt(p[2]),parseInt(p[1])-1,parseInt(p[0]),23,59,59);}
 function daysUntil(s){var exp=parseDate(s);if(!exp)return null;return Math.ceil((exp-new Date())/(1000*60*60*24));}
 
 // Автозаморозка при просроченных штрафах (3 дня)
@@ -1128,7 +1202,10 @@ function openEdit(id){
   var e=findById(id);if(!e)return;EDIT_ID=String(id);
   document.getElementById('e-name').value=e.name;
   document.getElementById('e-rank').value=e.rank;
-  document.getElementById('e-addr').value=e.addr;
+  document.getElementById('e-addr-custom').oninput=function(){
+    document.getElementById('e-addr').value=this.value;
+  };
+  setAddrFields('e', e.addr);
   document.getElementById('e-date').value=e.date;
   document.getElementById('e-val').value=e.val||'';
   document.getElementById('e-tags').value=e.tags||'';
