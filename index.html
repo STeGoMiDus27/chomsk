@@ -45,13 +45,17 @@ body{background:var(--bg);min-height:100vh;font-family:'Inter',-apple-system,Bli
 .menu-sym svg{display:block;filter:drop-shadow(0 4px 12px rgba(0,0,0,0.15));}
 .menu-sym svg path{fill:#1d1d1f;}
 .menu-title{font-size:34px;font-weight:700;letter-spacing:-.5px;color:var(--text);}
-.menu-sub{font-size:13px;font-weight:400;color:var(--text3);letter-spacing:0;}
-.menu-cards{display:flex;gap:16px;flex-wrap:wrap;justify-content:center;}
-.menu-card{background:var(--bg2);border-radius:var(--radius);padding:28px 36px;cursor:pointer;display:flex;flex-direction:column;align-items:flex-start;gap:8px;min-width:180px;box-shadow:var(--shadow);border:1px solid var(--border);transition:transform .15s,box-shadow .15s;}
-.menu-card:hover{transform:translateY(-2px);box-shadow:var(--shadow2);}
-.menu-card:active{transform:scale(.97);}
-.menu-card-title{font-size:15px;font-weight:600;color:var(--text);letter-spacing:-.2px;}
-.menu-card-sub{font-size:12px;font-weight:400;color:var(--text3);line-height:1.4;}
+.menu-sub{font-size:15px;font-weight:400;color:var(--text3);letter-spacing:0;}
+.menu-cards{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;width:100%;max-width:500px;}
+.menu-card{background:transparent;border-radius:var(--radius);padding:0;cursor:pointer;display:flex;flex-direction:row;align-items:center;gap:16px;width:100%;box-shadow:none;border:1px solid var(--border);transition:all .2s cubic-bezier(.22,.68,0,1.2);overflow:hidden;}
+.menu-card:hover{border-color:var(--accent);background:rgba(10,132,255,.05);transform:translateX(4px);}
+.menu-card:active{transform:scale(.98);}
+.menu-card-icon{width:68px;height:78px;display:flex;align-items:center;justify-content:center;font-size:26px;flex-shrink:0;border-right:1px solid var(--border);background:rgba(255,255,255,.03);}
+.menu-card-body{padding:20px 20px 20px 0;flex:1;}
+.menu-card-title{font-size:17px;font-weight:600;color:var(--text);letter-spacing:-.2px;margin-bottom:5px;}
+.menu-card-sub{font-size:13px;font-weight:400;color:var(--text3);line-height:1.4;}
+.menu-card-arrow{font-size:20px;color:var(--text4);padding-right:20px;flex-shrink:0;transition:transform .2s;}
+.menu-card:hover .menu-card-arrow{transform:translateX(3px);color:var(--accent);}
 .menu-footer{font-size:11px;color:var(--text4);}
 
 /* SHARED NAV */
@@ -219,8 +223,8 @@ textarea{resize:vertical;min-height:80px;}
 
 @media(max-width:768px){
   .menu-title{font-size:24px;}
-  .menu-cards{flex-direction:column;width:100%;max-width:320px;}
-  .menu-card{width:100%;min-width:unset;}
+  .menu-cards{flex-direction:column;width:100%;max-width:360px;}
+  .menu-card{width:100%;}
   .menu-wrap{gap:24px;padding:40px 16px;}
   .admin-body{grid-template-columns:1fr;overflow:visible;}
   .sidebar{height:auto;border-right:none;border-bottom:1px solid var(--border);position:static;}
@@ -300,19 +304,27 @@ window.addEventListener('DOMContentLoaded', function(){
   <div class="menu-wrap">
     <div class="menu-logo">
       <div class="menu-sym">
-        <svg height="50" viewBox="0 0 1956 600" style="filter:brightness(0) invert(1)" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M150 150H300V600H150V150Z" fill="#ffffff"/><path d="M450 150H600V600H450V150Z" fill="#ffffff"/><path d="M0 0H150V150H0V0Z" fill="#ffffff"/><path d="M300 0H450V150H300V0Z" fill="#ffffff"/><path d="M938.672 515.938H881.25V283.32H807.617V515.938H750V234.102H938.672V515.938Z" fill="#ffffff"/><path d="M1066.8 520.039C1045.44 520.039 1027.47 514.57 1012.89 503.633C998.438 492.565 987.435 476.289 979.883 454.805C972.461 433.32 968.75 406.823 968.75 375.312V374.922C968.75 343.542 972.461 317.109 979.883 295.625C987.435 274.141 998.438 257.865 1012.89 246.797C1027.47 235.599 1045.44 230 1066.8 230C1088.02 230 1105.92 235.599 1120.51 246.797C1135.09 257.865 1146.09 274.141 1153.52 295.625C1160.94 317.109 1164.65 343.542 1164.65 374.922V375.312C1164.65 406.823 1160.94 433.32 1153.52 454.805C1146.09 476.289 1135.09 492.565 1120.51 503.633C1105.92 514.57 1088.02 520.039 1066.8 520.039ZM1066.8 469.453C1075.39 469.453 1082.55 466.133 1088.28 459.492C1094.14 452.852 1098.5 442.63 1101.37 428.828C1104.36 414.896 1105.86 397.057 1105.86 375.312V374.922C1105.86 353.177 1104.36 335.404 1101.37 321.602C1098.5 307.669 1094.14 297.383 1088.28 290.742C1082.42 283.971 1075.26 280.586 1066.8 280.586C1058.2 280.586 1050.98 283.971 1045.12 290.742C1039.39 297.383 1035.03 307.669 1032.03 321.602C1029.04 335.404 1027.54 353.177 1027.54 374.922V375.312C1027.54 397.188 1029.04 415.026 1032.03 428.828C1035.03 442.63 1039.39 452.852 1045.12 459.492C1050.85 466.133 1058.07 469.453 1066.8 469.453Z" fill="#ffffff"/><path d="M1223.24 427.656V380.977H1270.31C1283.46 380.977 1293.1 376.875 1299.22 368.672C1305.47 360.469 1308.59 348.034 1308.59 331.367V330.781C1308.59 313.854 1305.47 301.419 1299.22 293.477C1293.1 285.404 1283.53 281.367 1270.51 281.367H1223.24V234.102H1281.05C1299.54 234.102 1315.17 238.008 1327.93 245.82C1340.69 253.633 1350.33 264.831 1356.84 279.414C1363.48 293.867 1366.8 310.99 1366.8 330.781V331.172C1366.8 351.094 1363.48 368.281 1356.84 382.734C1350.33 397.057 1340.69 408.125 1327.93 415.938C1315.17 423.75 1299.54 427.656 1281.05 427.656H1223.24ZM1194.53 515.938V234.102H1251.95V515.938H1194.53Z" fill="#ffffff"/><path d="M1437.3 515.938V283.32H1382.03V234.102H1550V283.32H1494.73V515.938H1437.3Z" fill="#ffffff"/><path d="M1542.58 515.938L1607.03 234.102H1662.89V294.648H1643.36L1601.76 515.938H1542.58ZM1583.98 457.734L1593.16 413.203H1694.73L1703.91 457.734H1583.98ZM1686.13 515.938L1644.34 294.648V234.102H1680.66L1745.31 515.938H1686.13Z" fill="#ffffff"/><path d="M1775.2 518.477C1770.64 518.477 1766.67 518.216 1763.28 517.695C1759.9 517.174 1757.29 516.589 1755.47 515.938V463.789C1757.03 464.18 1758.72 464.505 1760.55 464.766C1762.5 465.026 1764.26 465.156 1765.82 465.156C1771.55 465.156 1776.17 463.659 1779.69 460.664C1783.2 457.669 1785.81 453.112 1787.5 446.992C1789.19 440.872 1790.17 432.995 1790.43 423.359L1796.48 234.102H1955.27V515.938H1897.66V283.32H1848.24L1843.55 428.242C1842.9 448.164 1839.97 464.831 1834.77 478.242C1829.69 491.523 1822.2 501.549 1812.3 508.32C1802.41 515.091 1790.04 518.477 1775.2 518.477Z" fill="#ffffff"/></svg>
+        <svg height="64" viewBox="0 0 1956 600" style="filter:brightness(0) invert(1)" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M150 150H300V600H150V150Z" fill="#ffffff"/><path d="M450 150H600V600H450V150Z" fill="#ffffff"/><path d="M0 0H150V150H0V0Z" fill="#ffffff"/><path d="M300 0H450V150H300V0Z" fill="#ffffff"/><path d="M938.672 515.938H881.25V283.32H807.617V515.938H750V234.102H938.672V515.938Z" fill="#ffffff"/><path d="M1066.8 520.039C1045.44 520.039 1027.47 514.57 1012.89 503.633C998.438 492.565 987.435 476.289 979.883 454.805C972.461 433.32 968.75 406.823 968.75 375.312V374.922C968.75 343.542 972.461 317.109 979.883 295.625C987.435 274.141 998.438 257.865 1012.89 246.797C1027.47 235.599 1045.44 230 1066.8 230C1088.02 230 1105.92 235.599 1120.51 246.797C1135.09 257.865 1146.09 274.141 1153.52 295.625C1160.94 317.109 1164.65 343.542 1164.65 374.922V375.312C1164.65 406.823 1160.94 433.32 1153.52 454.805C1146.09 476.289 1135.09 492.565 1120.51 503.633C1105.92 514.57 1088.02 520.039 1066.8 520.039ZM1066.8 469.453C1075.39 469.453 1082.55 466.133 1088.28 459.492C1094.14 452.852 1098.5 442.63 1101.37 428.828C1104.36 414.896 1105.86 397.057 1105.86 375.312V374.922C1105.86 353.177 1104.36 335.404 1101.37 321.602C1098.5 307.669 1094.14 297.383 1088.28 290.742C1082.42 283.971 1075.26 280.586 1066.8 280.586C1058.2 280.586 1050.98 283.971 1045.12 290.742C1039.39 297.383 1035.03 307.669 1032.03 321.602C1029.04 335.404 1027.54 353.177 1027.54 374.922V375.312C1027.54 397.188 1029.04 415.026 1032.03 428.828C1035.03 442.63 1039.39 452.852 1045.12 459.492C1050.85 466.133 1058.07 469.453 1066.8 469.453Z" fill="#ffffff"/><path d="M1223.24 427.656V380.977H1270.31C1283.46 380.977 1293.1 376.875 1299.22 368.672C1305.47 360.469 1308.59 348.034 1308.59 331.367V330.781C1308.59 313.854 1305.47 301.419 1299.22 293.477C1293.1 285.404 1283.53 281.367 1270.51 281.367H1223.24V234.102H1281.05C1299.54 234.102 1315.17 238.008 1327.93 245.82C1340.69 253.633 1350.33 264.831 1356.84 279.414C1363.48 293.867 1366.8 310.99 1366.8 330.781V331.172C1366.8 351.094 1363.48 368.281 1356.84 382.734C1350.33 397.057 1340.69 408.125 1327.93 415.938C1315.17 423.75 1299.54 427.656 1281.05 427.656H1223.24ZM1194.53 515.938V234.102H1251.95V515.938H1194.53Z" fill="#ffffff"/><path d="M1437.3 515.938V283.32H1382.03V234.102H1550V283.32H1494.73V515.938H1437.3Z" fill="#ffffff"/><path d="M1542.58 515.938L1607.03 234.102H1662.89V294.648H1643.36L1601.76 515.938H1542.58ZM1583.98 457.734L1593.16 413.203H1694.73L1703.91 457.734H1583.98ZM1686.13 515.938L1644.34 294.648V234.102H1680.66L1745.31 515.938H1686.13Z" fill="#ffffff"/><path d="M1775.2 518.477C1770.64 518.477 1766.67 518.216 1763.28 517.695C1759.9 517.174 1757.29 516.589 1755.47 515.938V463.789C1757.03 464.18 1758.72 464.505 1760.55 464.766C1762.5 465.026 1764.26 465.156 1765.82 465.156C1771.55 465.156 1776.17 463.659 1779.69 460.664C1783.2 457.669 1785.81 453.112 1787.5 446.992C1789.19 440.872 1790.17 432.995 1790.43 423.359L1796.48 234.102H1955.27V515.938H1897.66V283.32H1848.24L1843.55 428.242C1842.9 448.164 1839.97 464.831 1834.77 478.242C1829.69 491.523 1822.2 501.549 1812.3 508.32C1802.41 515.091 1790.04 518.477 1775.2 518.477Z" fill="#ffffff"/></svg>
       </div>
       <div class="menu-title" style="display:none;">Чомск</div>
       <div class="menu-sub">Единый портал</div>
     </div>
     <div class="menu-cards">
       <div class="menu-card" id="goto-admin">
-        <div class="menu-card-title">Администрация</div>
-        <div class="menu-card-sub">Управление базой<br>удостоверений</div>
+        <div class="menu-card-icon">⚙</div>
+        <div class="menu-card-body">
+          <div class="menu-card-title">Администрация</div>
+          <div class="menu-card-sub">Управление базой удостоверений</div>
+        </div>
+        <div class="menu-card-arrow">›</div>
       </div>
       <div class="menu-card" id="goto-citizen">
-        <div class="menu-card-title">Гражданин</div>
-        <div class="menu-card-sub">Проверить своё<br>удостоверение</div>
+        <div class="menu-card-icon">◻</div>
+        <div class="menu-card-body">
+          <div class="menu-card-title">Гражданин</div>
+          <div class="menu-card-sub">Проверить своё удостоверение</div>
+        </div>
+        <div class="menu-card-arrow">›</div>
       </div>
     </div>
     <div id="goto-wanted" style="cursor:pointer;font-size:9px;letter-spacing:2px;color:#ff44aa;text-transform:uppercase;border:1px solid #2b0d1a;border-radius:3px;padding:8px 20px;background:transparent;">⚠ Список · В розыске</div>
@@ -674,7 +686,7 @@ async function updateRequest(id, status, response) {
       for(var i=0;i<DB.length;i++){if(DB[i].id===rows[0].citizen_id){citizen=DB[i];break;}}
       if(citizen){
         if(!citizen.messages)citizen.messages=[];
-        var typeMap={'rank':'Заявка на изменение ранга','extend':'Заявка на продление срока','error':'Сообщение об ошибке'};
+        var typeMap={'rank':'Заявка на изменение ранга','extend':'Заявка на продление срока','error':'Сообщение об ошибке','fine':'Оплата штрафа'};
         citizen.messages.unshift({
           text:(status==='accepted'?'✅ ':'❌ ')+(typeMap[rows[0].type]||'Заявка')+': '+response,
           ts:nowStr()
@@ -698,7 +710,7 @@ async function renderRequests() {
 
   if(!reqs.length){list.innerHTML='<div style="text-align:center;font-size:10px;color:#444;letter-spacing:2px;padding:20px;">Заявок нет</div>';return;}
 
-  var typeMap={'rank':'↑ Заявка на ранг','extend':'⟳ Продление срока','error':'⚠ Ошибка в данных'};
+  var typeMap={'rank':'↑ Заявка на ранг','extend':'⟳ Продление срока','error':'⚠ Ошибка в данных','fine':'💰 Оплата штрафа'};
   var html='';
   reqs.forEach(function(r){
     var isPending=r.status==='pending';
@@ -838,6 +850,32 @@ function tr(name){
 function nowStr(){var n=new Date();return('0'+n.getDate()).slice(-2)+'.'+('0'+(n.getMonth()+1)).slice(-2)+'.'+n.getFullYear()+' '+('0'+n.getHours()).slice(-2)+':'+('0'+n.getMinutes()).slice(-2);}
 function parseDate(s){if(!s||!s.trim())return null;var p=s.trim().split('.');if(p.length<3)return null;return new Date(parseInt(p[2]),parseInt(p[1])-1,parseInt(p[0]),23,59,59);}
 function daysUntil(s){var exp=parseDate(s);if(!exp)return null;return Math.ceil((exp-new Date())/(1000*60*60*24));}
+
+// Автозаморозка при просроченных штрафах (3 дня)
+async function checkFineFreeze(){
+  var changed=false;
+  for(var i=0;i<DB.length;i++){
+    var e=DB[i];
+    if(e.frozen||e.wanted||!e.fines||!e.fines.length)continue;
+    // Проверяем самый старый штраф
+    var oldestFine=e.fines[0];
+    if(!oldestFine.ts)continue;
+    // Парсим дату штрафа из строки вида "13.04.2026 23:01"
+    var parts=oldestFine.ts.split(' ')[0].split('.');
+    if(parts.length<3)continue;
+    var fineDate=new Date(parseInt(parts[2]),parseInt(parts[1])-1,parseInt(parts[0]));
+    var daysSince=Math.floor((new Date()-fineDate)/(1000*60*60*24));
+    if(daysSince>=3){
+      e.frozen=true;
+      e.frozenReason='Автозаморозка: штраф не погашен в течение 3 дней';
+      if(!e.messages)e.messages=[];
+      e.messages.unshift({text:'❄ Ваше удостоверение заморожено из-за неоплаченного штрафа.',ts:nowStr()});
+      await dbSaveOne(e);
+      changed=true;
+    }
+  }
+  if(changed)render();
+}
 function getStatus(e){
   if(e.wanted)return{label:'В РОЗЫСКЕ',cls:'st-want',dotColor:'#ff44aa',bgCls:'status-want'};
   if(e.frozen)return{label:'ЗАМОРОЖЕНО',cls:'st-frz',dotColor:'#4a9fff',bgCls:'status-frz'};
@@ -1331,6 +1369,15 @@ function bindCitizenButtons(found){
       });
     });
 
+    // Кнопка оплатить штраф
+    var payBtn=document.getElementById('btn-pay-fine');
+    if(payBtn) payBtn.addEventListener('click',async function(){
+      this.textContent='Отправка...';this.disabled=true;
+      await submitRequest(found,'fine','Прошу подтвердить оплату штрафа. Штрафов: '+found.fines.length+'. '+found.fines.map(function(f){return f.text;}).join(', '));
+      this.textContent='✓ Заявка отправлена';
+      setTimeout(function(){if(payBtn){payBtn.textContent='Оплатить';payBtn.disabled=false;}},3000);
+    });
+
     var dlBtn=document.getElementById('btn-download-card');
     if(dlBtn) dlBtn.addEventListener('click',function(){
       var card=document.querySelector('.id-card');
@@ -1417,7 +1464,16 @@ function renderProfile(e){
       '<button id="btn-report-error" class="btn" style="font-size:9px;letter-spacing:1.5px;border-color:#2a1a0d;color:#ffaa44;">⚠ Сообщить об ошибке</button>'+
     '</div>'+
     (e.notes?'<div class="info-block"><div class="info-block-title">Примечания</div><div style="font-size:12px;color:#888;line-height:1.6">'+e.notes+'</div></div>':'')+
-    (e.fines&&e.fines.length?'<div class="info-block" style="border-color:#3a1a00;"><div class="info-block-title" style="color:#ff6600;">Штрафы ('+e.fines.length+')</div>'+e.fines.map(function(f){return'<div style="font-size:11px;color:#ffaa44;padding:4px 0;border-bottom:1px solid #1a1a1a;">'+f.text+'<span style="color:#555;font-size:9px;margin-left:8px;">'+f.ts+'</span></div>';}).join('')+'</div>':'')+
+    (e.fines&&e.fines.length?
+      '<div class="info-block" style="border-color:var(--orange);background:rgba(255,159,10,.07);">'+
+        '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">'+
+          '<div class="info-block-title" style="color:var(--orange);margin-bottom:0;">⚠ Штрафы ('+e.fines.length+')</div>'+
+          '<button id="btn-pay-fine" style="background:var(--orange);color:#000;border:none;border-radius:20px;font-family:inherit;font-size:12px;font-weight:600;padding:6px 16px;cursor:pointer;">Оплатить</button>'+
+        '</div>'+
+        '<div style="font-size:12px;color:var(--text4);margin-bottom:8px;">Погасите штраф в течение 3 дней — иначе удостоверение будет заморожено.</div>'+
+        e.fines.map(function(f){return'<div style="font-size:12px;color:var(--orange);padding:6px 0;border-bottom:1px solid rgba(255,159,10,.15);">'+f.text+'<span style="color:var(--text4);font-size:10px;margin-left:8px;">'+f.ts+'</span></div>';}).join('')+
+      '</div>'
+    :'')+
     (e.messages&&e.messages.length?'<div class="info-block" style="border-color:#1a2a3a;"><div class="info-block-title" style="color:#4a9fff;">Сообщения от администрации</div>'+e.messages.map(function(m,i){return'<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px;padding:8px 0;border-bottom:1px solid #1a1a1a;"><div><div style="font-size:11px;color:#bbb;line-height:1.5">'+m.text+'</div><div style="font-size:8px;color:#333;margin-top:3px;letter-spacing:1px;">'+m.ts+'</div></div><button class="btn" data-msgidx="'+i+'" style="font-size:8px;padding:3px 7px;flex-shrink:0;color:#444;">✕</button></div>';}).join('')+'</div>':'')+
     (e.frozenReason?'<div class="info-block"><div style="font-size:12px;color:#4a9fff;line-height:1.6">'+e.frozenReason+'</div></div>':'')+
     (e.wantReason?'<div class="info-block"><div style="font-size:12px;color:#ff44aa;line-height:1.6">'+e.wantReason+'</div></div>':'')+
@@ -1446,7 +1502,7 @@ function renderProfile(e){
 
 // ========== EVENT LISTENERS ==========
 window.addEventListener('DOMContentLoaded', async function(){
-  await dbLoad(); render();
+  await dbLoad(); await checkFineFreeze(); render();
 
   // Восстановить экран после обновления
   var savedScreen = '';
