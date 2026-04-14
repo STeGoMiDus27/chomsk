@@ -942,7 +942,9 @@ function setAddrFields(prefix, addrVal){
     document.getElementById(prefix+'-addr-custom').value=addrVal;
   }
   document.getElementById(prefix+'-addr').value=addrVal;
-}if(!s||!s.trim())return null;var p=s.trim().split('.');if(p.length<3)return null;return new Date(parseInt(p[2]),parseInt(p[1])-1,parseInt(p[0]),23,59,59);}
+}
+
+function parseDate(s){if(!s||!s.trim())return null;var p=s.trim().split('.');if(p.length<3)return null;return new Date(parseInt(p[2]),parseInt(p[1])-1,parseInt(p[0]),23,59,59);}
 function daysUntil(s){var exp=parseDate(s);if(!exp)return null;return Math.ceil((exp-new Date())/(1000*60*60*24));}
 
 // Автозаморозка при просроченных штрафах (3 дня)
