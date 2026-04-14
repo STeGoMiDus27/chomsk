@@ -678,7 +678,6 @@ async function updateRequest(id, status, response) {
       headers: Object.assign({}, sbHeaders(), {'Prefer':'return=minimal'}),
       body: JSON.stringify({status:status, response:response})
     });
-    // Найдём заявку чтобы получить citizen_id
     var res=await fetch(SUPABASE_URL+'/rest/v1/requests?id=eq.'+id+'&select=citizen_id,type',{headers:sbHeaders()});
     var rows=await res.json();
     if(rows&&rows[0]){
@@ -686,11 +685,23 @@ async function updateRequest(id, status, response) {
       for(var i=0;i<DB.length;i++){if(DB[i].id===rows[0].citizen_id){citizen=DB[i];break;}}
       if(citizen){
         if(!citizen.messages)citizen.messages=[];
-        var typeMap={'rank':'Заявка на изменение ранга','extend':'Заявка на продление срока','error':'Сообщение об ошибке','fine':'Оплата штрафа'};
-        citizen.messages.unshift({
-          text:(status==='accepted'?'✅ ':'❌ ')+(typeMap[rows[0].type]||'Заявка')+': '+response,
-          ts:nowStr()
-        });
+        var type=rows[0].type;
+        var msgText='';
+        if(status==='accepted'){
+          if(type==='fine') msgText='✅ Оплата штрафа подтверждена. Спасибо.';
+          else if(type==='rank') msgText='✅ Заявка на изменение ранга одобрена.';
+          else if(type==='extend') msgText='✅ Продление срока одобрено.';
+          else if(type==='error') msgText='✅ Ошибка в данных исправлена.';
+          else msgText='✅ Заявка одобрена.';
+        } else {
+          if(type==='fine') msgText='❌ Оплата штрафа не подтверждена. Попробуйте ещё раз или свяжитесь с администрацией.';
+          else if(type==='rank') msgText='❌ Заявка на изменение ранга отклонена.';
+          else if(type==='extend') msgText='❌ Продление срока отклонено.';
+          else if(type==='error') msgText='❌ Заявка об ошибке отклонена.';
+          else msgText='❌ Заявка отклонена.';
+        }
+        if(response) msgText+='\nКомментарий: '+response;
+        citizen.messages.unshift({text:msgText, ts:nowStr()});
         await dbSaveOne(citizen);
       }
     }
@@ -1583,7 +1594,7 @@ window.addEventListener('DOMContentLoaded', async function(){
     var pass=document.getElementById('a-pass').value;
     var err=document.getElementById('a-err');
     if(!ADMIN_PASSWORD){err.textContent='Ошибка загрузки. Обновите страницу.';return;}
-    if(pass===ADMIN_PASSWORD){show('screen-admin');render();}
+    if(pass===ADMIN_PASSWORD){show('screen-admin');render();setTimeout(updateBadge,500);}
     else{err.textContent='Неверный пароль';}
   });
   document.getElementById('a-pass').addEventListener('keydown',function(ev){if(ev.key==='Enter')document.getElementById('btn-admin-login').click();});
@@ -1615,13 +1626,15 @@ window.addEventListener('DOMContentLoaded', async function(){
     }
   });
 
-  // Обновляем бейдж при загрузке админки
-  setTimeout(async function(){
+  // Обновляем бейдж при загрузке и каждые 30 секунд
+  async function updateBadge(){
     var reqs=await loadRequests();
     var pending=reqs.filter(function(r){return r.status==='pending';});
     var badge=document.getElementById('req-badge');
     if(badge){if(pending.length){badge.style.display='block';badge.textContent=pending.length;}else badge.style.display='none';}
-  },2000);
+  }
+  setTimeout(updateBadge, 2000);
+  setInterval(updateBadge, 30000);
 
   document.getElementById('btn-toggle-sidebar').addEventListener('click',function(){
     var body=document.getElementById('admin-body');
