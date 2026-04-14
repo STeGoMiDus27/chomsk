@@ -1360,6 +1360,19 @@ async function citizenLogin(){
   try{
     if(navigator.vibrate) navigator.vibrate([10, 50, 20]);
   }catch(e){}
+  // Автообновление профиля каждые 30 секунд
+  if(window._citizenRefreshInterval) clearInterval(window._citizenRefreshInterval);
+  window._citizenRefreshInterval = setInterval(async function(){
+    if(document.getElementById('screen-citizen-profile').classList.contains('active')){
+      await dbLoad();
+      var updated=DB.find(function(e){return e.id===found.id;});
+      if(updated){
+        found=updated;
+        renderProfile(updated);
+        bindCitizenButtons(updated);
+      }
+    }
+  }, 30000);
   setTimeout(function(){
     bindCitizenButtons(found);
   },100);
@@ -1470,12 +1483,25 @@ function bindCitizenButtons(found){
 
     // Кнопка оплатить штраф
     var payBtn=document.getElementById('btn-pay-fine');
-    if(payBtn) payBtn.addEventListener('click',async function(){
-      this.textContent='Отправка...';this.disabled=true;
-      await submitRequest(found,'fine','Прошу подтвердить оплату штрафа. Штрафов: '+found.fines.length+'. '+found.fines.map(function(f){return f.text;}).join(', '));
-      this.textContent='✓ Заявка отправлена';
-      setTimeout(function(){if(payBtn){payBtn.textContent='Оплатить';payBtn.disabled=false;}},3000);
-    });
+    if(payBtn) {
+      // Проверяем есть ли уже заявка на рассмотрении
+      loadRequests().then(function(reqs){
+        var hasPending=reqs.some(function(r){
+          return r.citizen_id===found.id && r.type==='fine' && r.status==='pending';
+        });
+        if(hasPending){
+          payBtn.textContent='На рассмотрении...';
+          payBtn.disabled=true;
+          payBtn.style.opacity='0.6';
+        }
+      });
+      payBtn.addEventListener('click',async function(){
+        this.textContent='Отправка...';this.disabled=true;
+        await submitRequest(found,'fine','Прошу подтвердить оплату штрафа. Штрафов: '+found.fines.length+'. '+found.fines.map(function(f){return f.text;}).join(', '));
+        this.textContent='На рассмотрении...';
+        this.style.opacity='0.6';
+      });
+    }
 
     var dlBtn=document.getElementById('btn-download-card');
     if(dlBtn) dlBtn.addEventListener('click',function(){
@@ -1745,6 +1771,7 @@ window.addEventListener('DOMContentLoaded', async function(){
   document.getElementById('back-from-citizen-login').addEventListener('click',function(){try{localStorage.removeItem('chomsk_screen');}catch(e){}show('screen-menu');});
   document.getElementById('citizen-logout').addEventListener('click',function(){
     try{localStorage.removeItem('chomsk_screen');localStorage.removeItem('chomsk_citizen_series');localStorage.removeItem('chomsk_citizen_pass');}catch(e){}
+    if(window._citizenRefreshInterval) clearInterval(window._citizenRefreshInterval);
     show('screen-menu');
   });
 
